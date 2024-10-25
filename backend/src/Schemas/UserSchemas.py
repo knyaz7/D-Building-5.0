@@ -11,6 +11,19 @@ class UserInput(BaseModel):
 
 class UserOutput(BaseModel):
     id: int
+    username: str
+    fullname: str
+    role_id: int
+    rating: Optional[float] = None
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
+
+class UserOutputTokens(BaseModel):
+    id: int
+    username: str
     fullname: str
     role_id: int
     rating: Optional[float] = None

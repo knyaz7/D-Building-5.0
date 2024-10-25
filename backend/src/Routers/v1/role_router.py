@@ -10,6 +10,6 @@ from src.Schemas.RoleSchemas import RoleInput, RoleOutput
 router = APIRouter(prefix="/api/v1/roles", tags=["Roles"])
 
 
-@router.post("", response_model=RoleOutput)
+@router.post("/", response_model=RoleOutput)
 async def create_role(role: RoleInput, session: AsyncSession = Depends(get_session)):
     return await RoleController.create_role(role, session)
