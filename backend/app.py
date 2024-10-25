@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
 from src.Config.db import engine, Base
-from src.Models.User import User
 from src.Routers.v1.user_router import router as user_router
 from src.Routers.v1.role_router import router as role_router
 
