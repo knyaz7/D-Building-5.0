@@ -57,3 +57,21 @@ class UserController:
             refresh_token=refresh_token,
             token_type="Bearer"
         )
+
+    @staticmethod
+    async def put_user(user_id: int, user_data: UserInput, session: AsyncSession) -> UserOutput:
+        result = await session.execute(select(User).where(User.id == user_id))
+        user = result.scalar_one_or_none()
+        if user is None:
+            raise HTTPException(status_code=404, detail="Пользователь не найден")
+
+        # Обновляем поля пользователя
+        for key, value in user_data.dict(exclude_unset=True).items():
+            setattr(user, key, value)
+
+        # Сохраняем изменения в базе данных
+        session.add(user)
+        await session.commit()
+
+        # Сериализация обновленного пользователя
+        return UserOutput.from_orm(user)
