@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Float
-from Config.db import Base
-import datetime
+from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
+from src.Config.db import Base
 
 
 class User(Base):
@@ -8,6 +7,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String(50), unique=True, nullable=False)
+    fullname = Column(String(50), unique=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
-    created_at = Column(DateTime(), default=datetime.datetime.utcnow())
+    role_id = Column(Integer, ForeignKey('roles.id'))
     rating = Column(Float, nullable=True)
