@@ -74,7 +74,6 @@ class AuthController:
         to_encode.update({"exp": expire})
         return jwt.encode(to_encode, AuthController.SECRET_KEY, algorithm=AuthController.ALGORITHM)
 
-
     @staticmethod
     async def refresh_access_token(refresh_token: AuthRefreshToken, session: AsyncSession) -> AuthUpdateTokens:
         payload = await AuthController.verify_token(refresh_token.refresh_token, session)
@@ -90,7 +89,7 @@ class AuthController:
         )
 
     @staticmethod
-    async def login(form_data: OAuth2PasswordRequestForm, session: AsyncSession):
+    async def login(form_data: OAuth2PasswordRequestForm, session: AsyncSession) -> AuthResponse:
         user_query = await session.execute(
             select(User).where(User.username == form_data.username)
         )

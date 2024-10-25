@@ -40,6 +40,8 @@ pyjwt==2.9.0
     # via backend
 python-dotenv==1.0.1
     # via backend
+python-multipart==0.0.12
+    # via backend
 sniffio==1.3.1
     # via anyio
 sqlalchemy==2.0.36
