@@ -5,7 +5,7 @@ __pycache__/
 build/
 dist/
 wheels/
-*.egg-info
+backend.egg-info
 
 # venv
 .venv
