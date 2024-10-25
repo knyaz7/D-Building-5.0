@@ -18,6 +18,14 @@ class UserController:
         return [UserOutput.from_orm(user) for user in users]
 
     @staticmethod
+    async def get_user(user_id: int, session: AsyncSession) -> UserOutput:
+        result = await session.execute(select(User).where(User.id == user_id))
+        user = result.scalar_one_or_none()
+        if user is None:
+            raise HTTPException(status_code=404, detail="Пользователь не найден")
+        return UserOutput.from_orm(user)
+
+    @staticmethod
     async def create_user(user: UserInput, session: AsyncSession) -> UserOutputTokens:
         existing_user = await session.execute(
             select(User).filter(or_(User.username == user.username, User.fullname == user.fullname))
@@ -36,7 +44,7 @@ class UserController:
         await session.commit()
         await session.refresh(new_user)
 
-        # Генерация токенов с использованием id и email
+        # Генерация токенов с использованием id и username
         access_token = AuthController.create_access_token(user_id=new_user.id, username=new_user.username)
         refresh_token = AuthController.create_refresh_token(user_id=new_user.id, username=new_user.username)
 
