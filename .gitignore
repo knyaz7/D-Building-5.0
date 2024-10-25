@@ -1,2 +1,4 @@
 .git
 .idea
+.vscode
+pg-d-building.session.sql
