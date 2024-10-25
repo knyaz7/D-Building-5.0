@@ -16,6 +16,11 @@ async def get_users(session: AsyncSession = Depends(get_session)):
     return await UserController.get_users(session)
 
 
+@router.get("/{user_id}", response_model=UserOutput)
+async def get_user(user_id: int, session: AsyncSession = Depends(get_session)):
+    return await UserController.get_user(user_id, session)
+
+
 @router.post("/", response_model=UserOutputTokens)
 async def create_user(user: UserInput, session: AsyncSession = Depends(get_session)):
     return await UserController.create_user(user, session)
