@@ -12,7 +12,7 @@ router = APIRouter(prefix="/api/v1/comments", tags=["Comments"])
 
 @router.post("/", response_model=CommentOutput)
 async def create_comment(comment: CommentInput, session: AsyncSession = Depends(get_session)):
-    return await CommentController.create_comment(comment, session)
+    return await CommentController.create(comment, session)
 
 
 @router.patch("/{comment_id}", response_model=CommentOutput)
