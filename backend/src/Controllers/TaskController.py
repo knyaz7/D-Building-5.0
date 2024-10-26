@@ -187,3 +187,72 @@ class TaskController:
         await session.commit()
 
         return ToolOutput.from_orm(tool)
+
+    @staticmethod
+    async def delete_comment(task_id: int, comment_id: int, session: AsyncSession):
+        await CommentController.delete(comment_id, session)
+        result = await session.execute(
+            select(Task).where(Task.id == task_id)
+        )
+        task = result.scalar_one_or_none()
+        if task is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        # Убираем comment_id из списка комментариев
+        current_comments = task.comments or []
+        updated_comments = [cid for cid in current_comments if cid != comment_id]
+
+        # Обновляем задачу с новым списком комментариев
+        await session.execute(
+            update(Task)
+            .where(Task.id == task_id)
+            .values(comments=updated_comments)
+        )
+
+        await session.commit()
+
+    @staticmethod
+    async def delete_point(task_id: int, point_id: int, session: AsyncSession):
+        await PointController.delete(point_id, session)
+        result = await session.execute(
+            select(Task).where(Task.id == task_id)
+        )
+        task = result.scalar_one_or_none()
+        if task is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        # Убираем comment_id из списка комментариев
+        current_points = task.points or []
+        updated_points = [cid for cid in current_points if cid != point_id]
+
+        # Обновляем задачу с новым списком комментариев
+        await session.execute(
+            update(Task)
+            .where(Task.id == task_id)
+            .values(points=updated_points)
+        )
+
+        await session.commit()
+
+    @staticmethod
+    async def remove_tool(task_id: int, tool_id: int, session: AsyncSession):
+        tool = await ToolController.get_one(tool_id, session)
+        result = await session.execute(
+            select(Task).where(Task.id == task_id)
+        )
+        task = result.scalar_one_or_none()
+        if task is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        # Убираем comment_id из списка комментариев
+        current_tools = task.stack or []
+        updated_tools = [cid for cid in current_tools if cid != tool_id]
+
+        # Обновляем задачу с новым списком комментариев
+        await session.execute(
+            update(Task)
+            .where(Task.id == task_id)
+            .values(stack=updated_tools)
+        )
+
+        await session.commit()
