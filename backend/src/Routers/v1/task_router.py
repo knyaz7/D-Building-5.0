@@ -24,10 +24,10 @@ async def get_task(task_id: int, token: str = Depends(oauth2_scheme), session: A
     return await TaskController.get_one(task_id, session)
 
 
-@router.post("/", response_model=TaskOutput)
-async def create_task(task: TaskInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await TaskController.create(task, session)
+# @router.post("/", response_model=TaskOutput)
+# async def create_task(task: TaskInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await TaskController.create(task, session)
 
 
 @router.put("/{task_id}", response_model=TaskOutput)
