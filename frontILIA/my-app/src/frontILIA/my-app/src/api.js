@@ -1,5 +1,5 @@
 // src/api.js
-export const updateTaskStatus = async (taskId, updateData) => {
+export const updateTaskStatus = async (taskId, FirstColumnId, SecondColumnId) => {
   try {
     const response = await fetch(`http://localhost:8000/api/v1/tasks/${taskId}`, {
       method: 'PUT',
