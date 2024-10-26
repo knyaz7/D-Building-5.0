@@ -8,11 +8,12 @@
 
 .column {
   flex: 1;
+  flex-basis: content;
   margin: 0 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 3 solid #BE22CC;
+  border-radius: 0px;
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: #FFFEFE;
   overflow-y: auto;
   /* Добавляем вертикальный скролл */
   max-height: 85vh;

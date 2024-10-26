@@ -8,12 +8,15 @@ import '@fontsource/jura/300.css'; // Light
 import '@fontsource/jura/400.css'; // Regular
 import '@fontsource/jura/500.css'; // Medium
 import '@fontsource/jura/700.css'; // Bold
+import Tasks from "../frontILIA/my-app/src/Tasks"
+
 
 function App() {
   return (
     <Router> 
       <div className="App">   
         <Routes>
+          <Route path="/task" element={<Tasks />} />
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
