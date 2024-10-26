@@ -15,6 +15,8 @@ class TaskController:
     async def get_all(session: AsyncSession) -> List[TaskOutput]:
         result = await session.execute(select(Task))
         tasks = result.scalars().all()
+        for task in tasks:
+            task.comments = await CommentController.get_by_task(task.id, session)
         return [TaskOutput.from_orm(task) for task in tasks]
 
     @staticmethod
