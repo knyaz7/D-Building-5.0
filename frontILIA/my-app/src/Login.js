@@ -100,7 +100,7 @@ function Login() {
             {errors[field] && <span className="error">{errors[field]}</span>}
           </div>
         ))}
-        <button type="submit" className="auth-button">Войти</button>
+        <button type="submit" className="auth-button">Вход</button>
       </form>
       <p>
         Не зарегистрированы? <Link to="/register">Создать аккаунт</Link>
