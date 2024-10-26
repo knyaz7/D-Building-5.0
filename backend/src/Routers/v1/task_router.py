@@ -39,10 +39,10 @@ async def update_task(task_id: int, task_data: TaskUpdate, token: str = Depends(
     return await TaskController.update(task_id, task_data, session)
 
 
-@router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(task_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await TaskController.delete(task_id, session)
+# @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+# async def delete_task(task_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await TaskController.delete(task_id, session)
 
 
 @router.post("/{task_id}/add_comment/", response_model=CommentOutput)
