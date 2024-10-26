@@ -29,7 +29,7 @@ class PointController:
             select(Point).filter(Point.text == point.text)
         )
         if existing_point.scalar() is not None:
-            raise HTTPException(status_code=400, detail="Точка с таким названием уже существует.")
+            raise HTTPException(status_code=400, detail="Пункт с таким названием уже существует.")
 
         new_point = Point(**point.dict())
         session.add(new_point)

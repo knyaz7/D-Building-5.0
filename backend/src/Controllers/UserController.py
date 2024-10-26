@@ -31,7 +31,7 @@ class UserController:
             select(User).filter(or_(User.username == user.username, User.fullname == user.fullname))
         )
         if existing_user.scalar() is not None:
-            raise HTTPException(status_code=400, detail="Fullname or username already registered")
+            raise HTTPException(status_code=400, detail="Пользователь с таким ФИО или username уже существует")
 
         hashed_password = AuthController.hash_password(user.password)
 
