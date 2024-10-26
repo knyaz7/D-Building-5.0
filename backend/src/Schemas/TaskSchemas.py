@@ -1,15 +1,25 @@
 from pydantic import BaseModel
 
 
-class CommentInput(BaseModel):
-    text: str
+class TaskInput(BaseModel):
+    title: str
+    description: str
+    stack: list
     user_id: int
+    position: int
+    points: list
 
 
-class CommentOutput(BaseModel):
+class TaskOutput(BaseModel):
     id: int
-    text: str
+    title: str
+    description: str
+    stack: list
     user_id: int
+    position: int
+    points: list
+    comments: list
 
     class Config:
         orm_mode = True
+        from_attributes = True
