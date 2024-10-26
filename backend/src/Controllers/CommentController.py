@@ -49,6 +49,7 @@ class CommentController:
     @staticmethod
     async def get_by_task(task_id: int, session: AsyncSession) -> List[CommentOutput]:
         task = await session.execute(select(Task).where(Task.id == task_id))
+        task = task.scalar_one_or_none()
         comment_ids = task.comments
         query = await session.execute(select(Comment).where(Comment.id.in_(comment_ids)))
         comments = query.scalars().all()
