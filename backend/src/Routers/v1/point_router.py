@@ -8,7 +8,7 @@ from src.Config.db import get_session
 from src.Controllers.MasterTaskController import MasterTaskController
 from src.Schemas.MasterTaskSchemas import MasterTaskInput, MasterTaskOutput
 
-router = APIRouter(prefix="/api/v1/master_tasks", tags=["Master tasks"])
+router = APIRouter(prefix="/api/v1/points", tags=["Master tasks"])
 
 
 @router.get("/", response_model=List[MasterTaskOutput])
