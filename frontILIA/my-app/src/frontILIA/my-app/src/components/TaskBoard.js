@@ -6,7 +6,7 @@ import { updateTaskStatus } from '../api';
 const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
   const columns = {
     todo: 'To Do',
-    todo_suka: 'To Do Suka',
+    todo_suka: 'To Do Faster',
     inProgress: 'In Progress',
     testing: 'Testing',
     done: 'Done',
