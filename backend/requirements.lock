@@ -55,3 +55,4 @@ typing-extensions==4.12.2
     # via sqlalchemy
 uvicorn==0.32.0
     # via backend
+pyyaml==6.0.2
