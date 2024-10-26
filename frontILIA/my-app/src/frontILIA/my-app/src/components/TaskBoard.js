@@ -1,5 +1,5 @@
 // src/components/TaskBoard.js
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './TaskBoard.css'; // Импорт стилей
 import { updateTaskStatus } from '../api';
 
@@ -20,8 +20,10 @@ const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [sourceColumnId, setSourceColumnId] = useState(null);
+  const [destinationColumnId, setDestinationColumnId] = useState(null);
 
-  const handleMouseDown = (e, task) => {
+  const handleMouseDown = (e, task, columnId) => {
     const taskElement = e.currentTarget;
     const rect = taskElement.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
@@ -30,6 +32,7 @@ const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
     setDraggedTask(task);
     setDragOffset({ x: offsetX, y: offsetY });
     setIsDragging(true);
+    setSourceColumnId(columnId);
   };
 
   const handleMouseMove = (e) => {
@@ -50,12 +53,18 @@ const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
     const column = e.target.closest('.column');
     if (column) {
       const status = column.getAttribute('data-status');
+      const columnId = Object.keys(columns).indexOf(status) + 1;
+      setDestinationColumnId(columnId);
+
       setIsLoading(true);
       try {
-        await updateTaskStatus(draggedTask.id, status);
+        console.log("Задача ID:", draggedTask.id);
+        console.log("Исходная колонка ID:", sourceColumnId);
+        console.log("Колонка назначения ID:", columnId);
+        await updateTaskStatus(draggedTask.id, sourceColumnId, columnId); // Обновленный вызов
         onMoveTask(draggedTask.id, status);
       } catch (error) {
-        console.error('Failed to update task status:', error);
+        console.error('Не удалось обновить статус задачи:', error);
       } finally {
         setIsLoading(false);
       }
@@ -69,6 +78,8 @@ const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
 
     setDraggedTask(null);
     setIsDragging(false);
+    setSourceColumnId(null);
+    setDestinationColumnId(null);
   };
 
   return (
@@ -77,7 +88,7 @@ const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
-      {Object.keys(columns).map((status) => (
+      {Object.keys(columns).map((status, index) => (
         <div
           key={status}
           className="column"
@@ -90,7 +101,7 @@ const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
                 key={task.id}
                 id={`task-${task.id}`}
                 className="task"
-                onMouseDown={(e) => handleMouseDown(e, task)}
+                onMouseDown={(e) => handleMouseDown(e, task, index + 1)}
               >
                 <h3>{task.title}</h3>
                 <p>Исполнитель: {task.assignee}</p>
