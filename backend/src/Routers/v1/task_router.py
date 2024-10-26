@@ -70,6 +70,6 @@ async def delete_point(task_id: int, point_id: int, session: AsyncSession = Depe
     return await TaskController.delete_point(task_id, point_id, session)
 
 
-@router.post("/{task_id}/unappend_tool/{tool_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{task_id}/unappend_tool/{tool_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def unappend_tool(task_id: int, tool_id: int, session: AsyncSession = Depends(get_session)):
     return await TaskController.remove_tool(task_id, tool_id, session)
