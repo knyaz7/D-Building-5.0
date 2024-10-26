@@ -55,7 +55,7 @@ def extract_tasks_from_text(text, selected_numbers):
 @app.on_message(filters.private)
 async def print_bot_responses(client, message):
     print(message)
-    username = "Quateely"  # Это должно соответствовать пользователю, с которым мы работаем
+    username = "Bebrbulinka"  # Это должно соответствовать пользователю, с которым мы работаем
     task = "Завершить финализацию документации по требованиям для новой функции учета расходов."
     user = await app.get_users(username)
     user_id = user.id
@@ -118,15 +118,15 @@ async def get_chat_history(client, chat_id, limit=5):
 
 async def main():
     unfulfilled_list_point = [
-        "Определить ключевые требования к функции учета расходов",
-        "Подготовить раздел руководства пользователя",
-        "Создать структуру финальной документации",
-        "Проверить и завершить документацию перед публикацией"
+        "Сделать",
+        "Запушить",
+        "Протестировать",
+        "Проинформировать"
     ]
-    username = "Quateely"
+    username = "Bebrbulinka"
     await app.start()
     await create_chat_and_send_message(username,
-                                       "Завершить финализацию документации по требованиям для новой функции учета расходов.",
+                                       "Сделать дизайн сайта.",
                                        unfulfilled_list_point, 4)
     await asyncio.Event().wait()  # Используем Event для ожидания событий
 
