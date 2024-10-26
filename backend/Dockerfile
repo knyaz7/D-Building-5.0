@@ -5,11 +5,12 @@ FROM python:3.12.5-slim
 WORKDIR /app
 
 # Копируем файл с зависимостями
-COPY pyproject.toml requirements.lock ./
+COPY pyproject.toml requirements.lock requirements-ml.lock ./
 
 # Устанавливаем зависимости
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.lock
+    pip install --no-cache-dir -r requirements.lock && \
+    pip install --no-cache-dir -r requirements-ml.lock
 
 # Копируем все остальные файлы в рабочую директорию
 COPY . .
