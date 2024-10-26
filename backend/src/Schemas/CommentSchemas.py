@@ -5,6 +5,9 @@ class CommentInput(BaseModel):
     text: str
     user_id: int
 
+class CommentPatchInput(BaseModel):
+    text: str
+
 
 class CommentOutput(BaseModel):
     id: int
@@ -13,3 +16,4 @@ class CommentOutput(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True

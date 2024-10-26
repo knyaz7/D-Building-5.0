@@ -2,6 +2,8 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
+from src.Schemas.CommentSchemas import CommentOutput
+
 
 class TaskInput(BaseModel):
     user_id: int
@@ -31,7 +33,7 @@ class TaskOutput(BaseModel):
     stack: List[int]
     position: int
     points: List[int]
-    comments: List[int]
+    comments: List[CommentOutput]
 
     class Config:
         orm_mode = True
