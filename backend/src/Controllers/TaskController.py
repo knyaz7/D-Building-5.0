@@ -7,12 +7,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.Models.Task import Task
 from src.Schemas.TaskSchemas import TaskInput, TaskOutput, TaskUpdate
 
+from src.Controllers.CommentController import CommentController
+
 
 class TaskController:
     @staticmethod
     async def get_all(session: AsyncSession) -> List[TaskOutput]:
         result = await session.execute(select(Task))
         tasks = result.scalars().all()
+        for task in tasks:
+            task.comments = await CommentController.get_by_task(task.id, session)
         return [TaskOutput.from_orm(task) for task in tasks]
 
     @staticmethod
@@ -21,6 +25,7 @@ class TaskController:
         task = result.scalar_one_or_none()
         if task is None:
             raise HTTPException(status_code=404, detail="Задача не найдена")
+        task.comments = await CommentController.get_by_task(task.id, session)
         return TaskOutput.from_orm(task)
 
     @staticmethod
@@ -54,6 +59,7 @@ class TaskController:
         await session.commit()
 
         # Сериализация обновленного пользователя
+        task.comments = await CommentController.get_by_task(task.id, session)
         return TaskOutput.from_orm(task)
 
     @staticmethod
