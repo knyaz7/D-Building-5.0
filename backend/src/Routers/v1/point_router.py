@@ -5,32 +5,32 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from src.Config.db import get_session
-from src.Controllers.MasterTaskController import MasterTaskController
-from src.Schemas.MasterTaskSchemas import MasterTaskInput, MasterTaskOutput
+from src.Controllers.PointController import PointController
+from src.Schemas.PointSchemas import PointInput, PointOutput
 
-router = APIRouter(prefix="/api/v1/points", tags=["Master tasks"])
-
-
-@router.get("/", response_model=List[MasterTaskOutput])
-async def get_tasks(session: AsyncSession = Depends(get_session)):
-    return await MasterTaskController.get_all(session)
+router = APIRouter(prefix="/api/v1/points", tags=["Points"])
 
 
-@router.get("/{task_id}", response_model=MasterTaskOutput)
-async def get_task(task_id: int, session: AsyncSession = Depends(get_session)):
-    return await MasterTaskController.get_one(task_id, session)
+@router.get("/", response_model=List[PointOutput])
+async def get_point(session: AsyncSession = Depends(get_session)):
+    return await PointController.get_all(session)
 
 
-@router.post("/", response_model=MasterTaskOutput)
-async def create_task(task: MasterTaskInput, session: AsyncSession = Depends(get_session)):
-    return await MasterTaskController.create(task, session)
+@router.get("/{point_id}", response_model=PointOutput)
+async def get_point(point_id: int, session: AsyncSession = Depends(get_session)):
+    return await PointController.get_one(point_id, session)
 
 
-@router.put("/{task_id}", response_model=MasterTaskOutput)
-async def update_task(task_id: int, task_data: MasterTaskInput, session: AsyncSession = Depends(get_session)):
-    return await MasterTaskController.update(task_id, task_data, session)
+@router.post("/", response_model=PointOutput)
+async def create_point(point: PointInput, session: AsyncSession = Depends(get_session)):
+    return await PointController.create(point, session)
 
 
-@router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(task_id: int, session: AsyncSession = Depends(get_session)):
-    return await MasterTaskController.delete(task_id, session)
+@router.put("/{point_id}", response_model=PointOutput)
+async def update_point(point_id: int, point_data: PointInput, session: AsyncSession = Depends(get_session)):
+    return await PointController.update(point_id, point_data, session)
+
+
+@router.delete("/{point_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_point(point_id: int, session: AsyncSession = Depends(get_session)):
+    return await PointController.delete(point_id, session)
