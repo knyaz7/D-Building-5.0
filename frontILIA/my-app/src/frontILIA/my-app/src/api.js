@@ -9,9 +9,12 @@ export const updateTaskStatus = async (taskId, FirstColumnId, SecondColumnId) =>
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InN0cmluZyIsImV4cCI6MTcyOTk2NDc5Nn0.hcq43DSk8FycbLcuXCHlffSmGvcJSvsWzoZy1n4abdU',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IkJlYnJidWxpbmthIiwiZXhwIjoxNzI5OTgyMTIyfQ.7LtZ79-qGQ1egdU0MohnXbqWWZF-jMoac7LJ2qx_QHQ',
       },
-      body: JSON.stringify(),
+      body: JSON.stringify({
+        from_column: FirstColumnId,
+        to_column: SecondColumnId,
+      }),
     });
 
     if (!response.ok) {
@@ -35,7 +38,7 @@ export const GetTasks = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/stages/`, {
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InN0cmluZyIsImV4cCI6MTcyOTk3NDQ4MH0.MpE5o055E5lg5W9THSeIONu3_9584PFo8bApmFFL0FQ'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IkJlYnJidWxpbmthIiwiZXhwIjoxNzI5OTgyMTIyfQ.7LtZ79-qGQ1egdU0MohnXbqWWZF-jMoac7LJ2qx_QHQ'
       }
     });
     return response.data; // Возвращаем данные этапов с задачами
@@ -44,3 +47,6 @@ export const GetTasks = async () => {
     throw error; // Перебрасываем ошибку для обработки в вызывающем коде
   }
 };
+
+
+
