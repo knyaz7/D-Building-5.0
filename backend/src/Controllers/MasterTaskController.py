@@ -1,11 +1,13 @@
 from typing import List
 
 from fastapi import HTTPException
-from sqlalchemy import select, update, literal
+from sqlalchemy import select, update, literal, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.Controllers.TaskController import TaskController
 from src.Models.MasterTask import MasterTask
+from src.Models.Stage import Stage
+from src.Models.Task import Task
 from src.Models.User import User
 from src.Schemas.MasterTaskSchemas import MasterTaskInput, MasterTaskOutput
 from src.Schemas.TaskSchemas import TaskOutput, TaskInput
@@ -102,14 +104,27 @@ class MasterTaskController:
         result = await session.execute(
             select(MasterTask).where(MasterTask.id == master_task_id)
         )
-        stage = result.scalar_one_or_none()
-        if stage is None:
+        master_task = result.scalar_one_or_none()
+        if master_task is None:
             raise HTTPException(400, "AAAAAAAAAAAa")
 
         await session.execute(
             update(MasterTask)
             .where(MasterTask.id == master_task_id)
-            .values(tasks=literal(task.id).concat(MasterTask.tasks))  # Используйте append для добавления нового id в список
+            .values(tasks=literal(task.id).concat(MasterTask.tasks))
+        )
+
+        to_stage_result = await session.execute(
+            select(Stage).where(Stage.id == 1)
+        )
+        to_stage = to_stage_result.scalar_one_or_none()
+        if to_stage is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        await session.execute(
+            update(Stage)
+            .where(Stage.id == to_stage.id)
+            .values(tasks=literal(task.id).concat(Stage.tasks))
         )
 
         await session.commit()
@@ -121,18 +136,35 @@ class MasterTaskController:
         result = await session.execute(
             select(MasterTask).where(MasterTask.id == master_task_id)
         )
-        stage = result.scalar_one_or_none()
-        if stage is None:
+        master_task = result.scalar_one_or_none()
+        if master_task is None:
             raise HTTPException(400, "AAAAAAAAAAAa")
 
         # Убираем comment_id из списка комментариев
-        current_tasks = stage.tasks or []
+        current_tasks = master_task.tasks or []
         updated_tasks = [cid for cid in current_tasks if cid != task_id]
 
         # Обновляем задачу с новым списком комментариев
         await session.execute(
             update(MasterTask)
             .where(MasterTask.id == master_task_id)
+            .values(tasks=updated_tasks)
+        )
+
+        from_stage_result = await session.execute(
+            select(Stage).where(Stage.tasks.any(task_id))
+        )
+        from_stage = from_stage_result.scalar_one_or_none()
+        if from_stage is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        current_tasks = from_stage.tasks or []
+        updated_tasks = [cid for cid in current_tasks if cid != task_id]
+
+        # Обновляем задачу с новым списком комментариев
+        await session.execute(
+            update(Stage)
+            .where(Stage.id == from_stage.id)
             .values(tasks=updated_tasks)
         )
 
