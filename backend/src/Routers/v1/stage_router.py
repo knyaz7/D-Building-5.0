@@ -40,3 +40,9 @@ async def update_stage(stage_id: int, task_data: StageInput, token: str = Depend
 @router.post("/{stage_id}/add_task/", response_model=TaskOutput)
 async def create_task(stage_id: int, task_data: TaskInput, session: AsyncSession = Depends(get_session)):
     return await StageController.create_task(stage_id, task_data, session)
+
+
+@router.delete("/{stage_id}/delete_stack/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def create_task(stage_id: int, task_id: int, session: AsyncSession = Depends(get_session)):
+    return await StageController.delete_task(stage_id, task_id, session)
+

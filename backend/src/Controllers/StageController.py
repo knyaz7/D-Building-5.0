@@ -96,3 +96,26 @@ class StageController:
 
         await session.commit()
         return TaskOutput.from_orm(task)
+
+    @staticmethod
+    async def delete_task(stage_id: int, task_id: int, session: AsyncSession):
+        await TaskController.delete(task_id, session)
+        result = await session.execute(
+            select(Stage).where(Stage.id == stage_id)
+        )
+        stage = result.scalar_one_or_none()
+        if stage is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        # Убираем comment_id из списка комментариев
+        current_tasks = stage.tasks or []
+        updated_tasks = [cid for cid in current_tasks if cid != task_id]
+
+        # Обновляем задачу с новым списком комментариев
+        await session.execute(
+            update(Stage)
+            .where(Stage.id == stage_id)
+            .values(tasks=updated_tasks)
+        )
+
+        await session.commit()
