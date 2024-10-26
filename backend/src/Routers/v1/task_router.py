@@ -46,30 +46,36 @@ async def update_task(task_id: int, task_data: TaskUpdate, token: str = Depends(
 
 
 @router.post("/{task_id}/add_comment/", response_model=CommentOutput)
-async def create_comment(task_id: int, comment_data: CommentInput, session: AsyncSession = Depends(get_session)):
+async def create_comment(task_id: int, comment_data: CommentInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await TaskController.create_comment(task_id, comment_data, session)
 
 
 @router.post("/{task_id}/add_point/", response_model=PointOutput)
-async def create_point(task_id: int, point_data: PointInput, session: AsyncSession = Depends(get_session)):
+async def create_point(task_id: int, point_data: PointInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await TaskController.create_point(task_id, point_data, session)
 
 
 @router.post("/{task_id}/append_tool/{tool_id}", response_model=ToolOutput)
-async def append_tool(task_id: int, tool_id: int, session: AsyncSession = Depends(get_session)):
+async def append_tool(task_id: int, tool_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await TaskController.add_tool(task_id, tool_id, session)
 
 
 @router.delete("/{task_id}/delete_comment/{comment_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_comment(task_id: int, comment_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_comment(task_id: int, comment_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await TaskController.delete_comment(task_id, comment_id, session)
 
 
 @router.delete("/{task_id}/delete_point/{point_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_point(task_id: int, point_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_point(task_id: int, point_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await TaskController.delete_point(task_id, point_id, session)
 
 
 @router.delete("/{task_id}/unappend_tool/{tool_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def unappend_tool(task_id: int, tool_id: int, session: AsyncSession = Depends(get_session)):
+async def unappend_tool(task_id: int, tool_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await TaskController.remove_tool(task_id, tool_id, session)

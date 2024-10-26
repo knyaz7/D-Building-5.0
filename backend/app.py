@@ -15,6 +15,7 @@ from src.Routers.v1.stage_router import router as stage_controller
 #from src.Routers.v1.command_router import router as command_router
 
 from src.Helpers.MiddlewareHelper import MiddlewareHelper
+from src.Helpers.SeederHelper import SeederHelper
 
 app = FastAPI()
 
@@ -24,6 +25,7 @@ MiddlewareHelper.setCors(app)
 async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    await SeederHelper.run_seeder()
 
 app.include_router(role_router)
 app.include_router(user_router)

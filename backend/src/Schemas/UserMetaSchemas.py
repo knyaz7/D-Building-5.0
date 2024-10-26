@@ -6,7 +6,7 @@ from datetime import datetime
 
 class UserMetaInput(BaseModel):
     user_id: int
-    position_id: int
+    position_id: int = None
     description: str
     employed_at: datetime
     stack: Optional[List[int]] = None
@@ -15,7 +15,7 @@ class UserMetaInput(BaseModel):
 class UserMetaOutput(BaseModel):
     id: int
     user_id: int
-    position_id: int
+    position_id: Optional[int] = None
     description: str
     stack: List[int]
     employed_at: datetime

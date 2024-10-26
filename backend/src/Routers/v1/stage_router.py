@@ -25,24 +25,25 @@ async def get_stage(stage_id: int, token: str = Depends(oauth2_scheme), session:
     return await StageController.get_one(stage_id, session)
 
 
-@router.post("/", response_model=StageOutput)
-async def create_stage(tool_id: StageInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await StageController.create(tool_id, session)
+# @router.post("/", response_model=StageOutput)
+# async def create_stage(tool_id: StageInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await StageController.create(tool_id, session)
 
 
-@router.put("/{stage_id}", response_model=StageOutput)
-async def update_stage(stage_id: int, task_data: StageInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await StageController.update(stage_id, task_data, session)
+# @router.put("/{stage_id}", response_model=StageOutput)
+# async def update_stage(stage_id: int, task_data: StageInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await StageController.update(stage_id, task_data, session)
 
 
 @router.post("/{stage_id}/add_task/", response_model=TaskOutput)
-async def create_task(stage_id: int, task_data: TaskInput, session: AsyncSession = Depends(get_session)):
+async def create_task(stage_id: int, task_data: TaskInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await StageController.create_task(stage_id, task_data, session)
 
 
 @router.delete("/{stage_id}/delete_stack/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(stage_id: int, task_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_task(stage_id: int, task_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+    await AuthController.verify_token(token, session)
     return await StageController.delete_task(stage_id, task_id, session)
-
