@@ -3,7 +3,7 @@ import g4f.Provider
 import re
 
 
-def evaluate_employees(employees, task, required_stack):
+async def evaluate_employees(employees, task, required_stack):
     """
     Оценивает сотрудников по заданной задаче и возвращает ранжированный список по рекомендациям.
 

@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from evaluate_task import evaluate_task
+from src.ml.evaluate_task import evaluate_task
 import speech_recognition as sr
 from pydub import AudioSegment
 import asyncio
@@ -11,9 +11,9 @@ API_HASH = "8bbd21a1b4be67a4084d2c4ddd3194a9"
 app = Client("TaskManagerAI", api_id=API_ID, api_hash=API_HASH)
 
 
-async def create_chat_and_send_message(username, task, unfulfilled_list_point, count_day):
+async def create_chat_and_send_message(username, task, count_day):
     # Добавляем метку "TASK:" к каждой задаче для более надежного поиска в тексте
-    unfulfilled_formatted = "\n".join([f"TASK: {item}" for item in unfulfilled_list_point])
+    unfulfilled_formatted = "\n".join([f"TASK: {item}" for item in task.points])
 
     user = await app.get_users(username)
     user_id = user.id
@@ -67,8 +67,6 @@ async def print_bot_responses(client, message):
             extract_tasks_formatted = "\n".join([f"{i + 1}. TASK: {item}" for i, item in enumerate(extract_tasks)])
             await client.send_message(message.chat.id, f"Задачи делегированы:\n\n"
                                                        f"{extract_tasks_formatted}\n\n")
-
-
         else:
             rating, subtasks = evaluate_task("Петров Петр Петрович", "Системный аналитик", message.text, task)
 
