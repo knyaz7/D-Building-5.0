@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from src.Config.db import Base
 
 
-class User(Base):
+class CommandUser(Base):
     __tablename__ = 'command_user'
 
     command_id = Column(Integer, ForeignKey('command.id'))
