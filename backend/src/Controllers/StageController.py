@@ -5,7 +5,7 @@ from sqlalchemy import select, update, literal
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.Models.Stage import Stage
-from src.Schemas.StageSchemas import StageInput, StageOutput
+from src.Schemas.StageSchemas import StageInput, StageOutput, MoveTask
 from src.Controllers.TaskController import TaskController
 from src.Schemas.TaskSchemas import TaskInput, TaskOutput
 
@@ -115,6 +115,40 @@ class StageController:
         await session.execute(
             update(Stage)
             .where(Stage.id == stage_id)
+            .values(tasks=updated_tasks)
+        )
+
+        await session.commit()
+
+    @staticmethod
+    async def move_task(task_id, move: MoveTask, session: AsyncSession):
+        from_stage_result = await session.execute(
+            select(Stage).where(Stage.id == move.from_stage_id)
+        )
+        from_stage = from_stage_result.scalar_one_or_none()
+        if from_stage is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        to_stage_result = await session.execute(
+            select(Stage).where(Stage.id == move.to_stage_id)
+        )
+        to_stage = to_stage_result.scalar_one_or_none()
+        if to_stage is None:
+            raise HTTPException(400, "AAAAAAAAAAAa")
+
+        await session.execute(
+            update(Stage)
+            .where(Stage.id == to_stage.id)
+            .values(tasks=literal(task_id).concat(Stage.tasks))
+        )
+
+        current_tasks = from_stage.tasks or []
+        updated_tasks = [cid for cid in current_tasks if cid != task_id]
+
+        # Обновляем задачу с новым списком комментариев
+        await session.execute(
+            update(Stage)
+            .where(Stage.id == from_stage.id)
             .values(tasks=updated_tasks)
         )
 

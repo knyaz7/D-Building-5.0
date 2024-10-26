@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -10,7 +12,7 @@ class MasterTaskInput(BaseModel):
 class MasterTaskOutput(BaseModel):
     id: int
     name: str
-    tasks: list
+    tasks: List[int]
     created_at: datetime
     deadline: datetime
 
