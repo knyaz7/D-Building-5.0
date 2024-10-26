@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from src.Config.db import engine, Base
 from src.Routers.v1.user_router import router as user_router
@@ -15,8 +16,14 @@ from src.Routers.v1.stage_router import router as stage_controller
 #from src.Routers.v1.command_router import router as command_router
 
 from src.Helpers.MiddlewareHelper import MiddlewareHelper
+from src.Helpers.WatchdogHelper import WatchdogHelper
 
 app = FastAPI()
+
+# Инициализация планировщика
+scheduler = BackgroundScheduler()
+scheduler.add_job(WatchdogHelper.check_deadlines, 'interval', days=1)
+scheduler.start()
 
 MiddlewareHelper.setCors(app)
 
