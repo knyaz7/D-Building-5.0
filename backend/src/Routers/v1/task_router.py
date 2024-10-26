@@ -6,7 +6,7 @@ from starlette import status
 
 from src.Config.db import get_session
 from src.Controllers.TaskController import TaskController
-from src.Schemas.TaskSchemas import TaskInput, TaskOutput
+from src.Schemas.TaskSchemas import TaskInput, TaskOutput, TaskUpdate
 
 router = APIRouter(prefix="/api/v1/tasks", tags=["Tasks"])
 
@@ -27,7 +27,7 @@ async def create_task(task: TaskInput, session: AsyncSession = Depends(get_sessi
 
 
 @router.put("/{task_id}", response_model=TaskOutput)
-async def update_task(task_id: int, task_data: TaskInput, session: AsyncSession = Depends(get_session)):
+async def update_task(task_id: int, task_data: TaskUpdate, session: AsyncSession = Depends(get_session)):
     return await TaskController.update(task_id, task_data, session)
 
 

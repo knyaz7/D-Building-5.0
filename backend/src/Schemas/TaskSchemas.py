@@ -1,24 +1,37 @@
+from typing import Optional, List
+
 from pydantic import BaseModel
 
 
 class TaskInput(BaseModel):
+    user_id: int
     title: str
     description: str
-    stack: list
-    user_id: int
+    stack: Optional[List[int]] = None
+
+
+class TaskUpdate(BaseModel):
+    title: str
+    description: str
+    stack: List[int]
     position: int
-    points: list
+    points: List[int]
+    comments: List[int]
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
 
 
 class TaskOutput(BaseModel):
     id: int
+    user_id: int
     title: str
     description: str
-    stack: list
-    user_id: int
+    stack: List[int]
     position: int
-    points: list
-    comments: list
+    points: List[int]
+    comments: List[int]
 
     class Config:
         orm_mode = True

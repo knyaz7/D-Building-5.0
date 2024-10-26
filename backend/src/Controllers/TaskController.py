@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.Models.Task import Task
-from src.Schemas.TaskSchemas import TaskInput, TaskOutput
+from src.Schemas.TaskSchemas import TaskInput, TaskOutput, TaskUpdate
 
 
 class TaskController:
@@ -26,12 +26,12 @@ class TaskController:
     @staticmethod
     async def create(task: TaskInput, session: AsyncSession) -> TaskOutput:
         existing_task = await session.execute(
-            select(Task).filter(Task.name == task.name)
+            select(Task).filter(Task.title == task.title)
         )
         if existing_task.scalar() is not None:
             raise HTTPException(status_code=400, detail="Задача с таким названием уже существует.")
 
-        new_task = Task(**task.dict())
+        new_task = await Task.create(session, **task.dict())
         session.add(new_task)
         await session.commit()
         await session.refresh(new_task)
@@ -39,7 +39,7 @@ class TaskController:
         return TaskOutput.from_orm(new_task)
 
     @staticmethod
-    async def update(task_id: int, task_data: TaskInput, session: AsyncSession) -> TaskOutput:
+    async def update(task_id: int, task_data: TaskUpdate, session: AsyncSession) -> TaskOutput:
         result = await session.execute(select(Task).where(Task.id == task_id))
         task = result.scalar_one_or_none()
         if task is None:
