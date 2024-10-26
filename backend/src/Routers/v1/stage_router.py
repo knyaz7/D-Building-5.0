@@ -43,6 +43,6 @@ async def create_task(stage_id: int, task_data: TaskInput, session: AsyncSession
 
 
 @router.delete("/{stage_id}/delete_stack/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def create_task(stage_id: int, task_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_task(stage_id: int, task_id: int, session: AsyncSession = Depends(get_session)):
     return await StageController.delete_task(stage_id, task_id, session)
 

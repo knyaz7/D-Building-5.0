@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
+import Tasks from "../frontILIA/my-app/src/Tasks"
 
 const Main = () => {
   return (
@@ -23,6 +24,7 @@ const Main = () => {
             </Link>
           </div>
         </div>
+        <Tasks />
       </div>
     </div>
   );
