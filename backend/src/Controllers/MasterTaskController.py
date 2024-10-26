@@ -21,7 +21,7 @@ class MasterTaskController:
         task = result.scalar_one_or_none()
         if task is None:
             raise HTTPException(status_code=404, detail="Задача не найдена")
-        return MasterTask.from_orm(task)
+        return MasterTaskOutput.from_orm(task)
 
     @staticmethod
     async def create(task: MasterTaskInput, session: AsyncSession) -> MasterTaskOutput:
@@ -43,7 +43,7 @@ class MasterTaskController:
         result = await session.execute(select(MasterTask).where(MasterTask.id == task_id))
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(status_code=404, detail="Пользователь не найден")
+            raise HTTPException(status_code=404, detail="Задача не найдена")
 
         # Обновляем поля пользователя
         for key, value in task_data.dict(exclude_unset=True).items():
@@ -54,14 +54,14 @@ class MasterTaskController:
         await session.commit()
 
         # Сериализация обновленного пользователя
-        return MasterTask.from_orm(task)
+        return MasterTaskOutput.from_orm(task)
 
     @staticmethod
     async def delete(task_id: int, session: AsyncSession):
         result = await session.execute(select(MasterTask).where(MasterTask.id == task_id))
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(status_code=404, detail="Пользователь не найден")
+            raise HTTPException(status_code=404, detail="Задача не найдена")
 
         await session.delete(task)
         await session.commit()
