@@ -57,3 +57,5 @@ typing-extensions==4.12.2
     # via sqlalchemy
 uvicorn==0.32.0
     # via backend
+apscheduler==3.10.4
+    # via backend
