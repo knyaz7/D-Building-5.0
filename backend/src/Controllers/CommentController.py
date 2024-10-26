@@ -12,7 +12,7 @@ from src.Models.Task import Task
 class CommentController:
     @staticmethod
     async def get_one(comment_id: int, session: AsyncSession) -> CommentOutput:
-        result = await session.execute(select(Task).where(Comment.id == comment_id))
+        result = await session.execute(select(Comment).where(Comment.id == comment_id))
         comment = result.scalar_one_or_none()
         if comment is None:
             raise HTTPException(status_code=404, detail="Задача не найдена")
