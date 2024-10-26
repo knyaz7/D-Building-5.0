@@ -30,10 +30,10 @@ class TaskController:
                 comments.append(result)
             task.comments = comments
             comments = []
-            for tool in task.tools:
+            for tool in task.stack:
                 result = await ToolController.get_one(tool, session)
                 tools.append(result)
-            task.tools = tools
+            task.stack = tools
             tools = []
             for point in task.points:
                 result = await PointController.get_one(point, session)
@@ -56,10 +56,10 @@ class TaskController:
         task.comments = comments
 
         tools: List[ToolOutput] = []
-        for tool in task.tools:
+        for tool in task.stack:
             result = await ToolController.get_one(tool, session)
             tools.append(result)
-        task.tools = tools
+        task.stack = tools
 
         points: List[PointOutput] = []
         for point in task.points:
@@ -106,10 +106,10 @@ class TaskController:
         task.comments = comments
 
         tools: List[ToolOutput] = []
-        for tool in task.tools:
+        for tool in task.stack:
             result = await ToolController.get_one(tool, session)
             tools.append(result)
-        task.tools = tools
+        task.stack = tools
 
         points: List[PointOutput] = []
         for point in task.points:
