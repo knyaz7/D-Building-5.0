@@ -5,11 +5,11 @@ import { updateTaskStatus, GetTasks } from '../api';
 
 const TaskBoard = ({ onDeleteTask, onOpenTask, onMoveTask }) => {
   const columns = {
-    todo: 'БЭКЛОГ',
-    todo_suka: 'СРОЧНЫЕ ЗАДАЧИ',
-    inProgress: 'В ПРОЦЕССЕ',
-    testing: 'НА ПРОВЕРКЕ',
-    done: 'СДЕЛАНО',
+    todo: 'To Do',
+    todo_suka: 'To Do Faster',
+    inProgress: 'In Progress',
+    testing: 'Testing',
+    done: 'Done',
   };
 
   const [tasks, setTasks] = useState([]);
