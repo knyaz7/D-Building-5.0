@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.Models.Comment import Comment
 from src.Schemas.CommentSchemas import CommentInput, CommentOutput
+from src.Models.Task import Task
 
 
 class CommentController:
@@ -44,3 +45,13 @@ class CommentController:
 
         await session.delete(comment)
         await session.commit()
+
+    @staticmethod
+    async def get_by_task(task_id: int, session: AsyncSession) -> List[CommentOutput]:
+        task = await session.execute(select(Task).where(Task.id == task_id))
+        comment_ids = task.comments
+        query = await session.execute(select(Comment).where(Comment.id.in_(comment_ids)))
+        comments = query.scalars().all()
+        await session.commit()
+
+        return [CommentOutput.from_orm(comment) for comment in comments]
