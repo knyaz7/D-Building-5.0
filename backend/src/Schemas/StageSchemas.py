@@ -16,3 +16,7 @@ class StageOutput(BaseModel):
     class Config:
         orm_mode = True
         from_attributes = True
+
+class MoveTask(BaseModel):
+    from_stage_id: int
+    to_stage_id: int

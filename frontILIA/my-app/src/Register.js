@@ -99,7 +99,13 @@ function Register() {
       <form className="auth-form" onSubmit={handleSubmit}>
         {['FIO', 'login', 'password', 'confirmPassword'].map((field) => (
           <div className="form-group" key={field}>
-            <label htmlFor={field}>{field === 'FIO' ? 'ФИО' : field === 'confirmPassword' ? 'Повторите пароль' : field}:</label>
+            <label htmlFor={field}>
+              {field === 'FIO' ? 'ФИО' : 
+               field === 'login' ? 'Логин' : 
+               field === 'password' ? 'Пароль' : 
+               field === 'confirmPassword' ? 'Повторите пароль' : 
+               field}:
+            </label>
             <input
               type={field === 'password' || field === 'confirmPassword' ? 'password' : 'text'}
               id={field}

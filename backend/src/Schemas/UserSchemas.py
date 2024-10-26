@@ -7,6 +7,12 @@ class UserInput(BaseModel):
     password: str
 
 
+class UserInputUpdate(BaseModel):
+    username: str
+    fullname: str
+    role_id: int
+
+
 class UserOutput(BaseModel):
     id: int
     username: str

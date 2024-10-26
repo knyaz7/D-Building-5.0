@@ -23,11 +23,11 @@ async def get_point(point_id: int, token: str = Depends(oauth2_scheme), session:
     await AuthController.verify_token(token, session)
     return await PointController.get_one(point_id, session)
 
-
-@router.post("/", response_model=PointOutput)
-async def create_point(point: PointInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await PointController.create(point, session)
+#
+# @router.post("/", response_model=PointOutput)
+# async def create_point(point: PointInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await PointController.create(point, session)
 
 
 @router.put("/{point_id}", response_model=PointOutput)
@@ -35,8 +35,8 @@ async def update_point(point_id: int, point_data: PointInput, token: str = Depen
     await AuthController.verify_token(token, session)
     return await PointController.update(point_id, point_data, session)
 
-
-@router.delete("/{point_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_point(point_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await PointController.delete(point_id, session)
+#
+# @router.delete("/{point_id}", status_code=status.HTTP_204_NO_CONTENT)
+# async def delete_point(point_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await PointController.delete(point_id, session)

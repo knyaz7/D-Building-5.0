@@ -62,7 +62,6 @@ function App() {
 
   return (
     <div>
-      <h1>Доска задач</h1>
       <TaskBoard
         tasks={tasks}
         onDeleteTask={handleDeleteTask}

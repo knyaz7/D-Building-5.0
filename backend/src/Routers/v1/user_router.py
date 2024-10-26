@@ -7,7 +7,7 @@ from starlette import status
 from src.Config.db import get_session
 from src.Controllers.AuthController import AuthController, oauth2_scheme
 from src.Controllers.UserController import UserController
-from src.Schemas.UserSchemas import UserInput, UserOutput, UserOutputTokens
+from src.Schemas.UserSchemas import UserInput, UserOutput, UserOutputTokens, UserInputUpdate
 
 router = APIRouter(prefix="/api/v1/users", tags=["Users"])
 
@@ -30,7 +30,7 @@ async def create_user(user: UserInput, session: AsyncSession = Depends(get_sessi
 
 
 @router.put("/{user_id}", response_model=UserOutput)
-async def update_user(user_id: int, user_data: UserInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+async def update_user(user_id: int, user_data: UserInputUpdate, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
     await AuthController.verify_token(token, session)
     return await UserController.update(user_id, user_data, session)
 

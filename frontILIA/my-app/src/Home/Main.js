@@ -22,9 +22,7 @@ const Main = () => {
             <Link to="/register">
               <button className="button contained">Регистрация</button>
             </Link>
-            
           </div>
-
         </div>
         <Tasks />
       </div>

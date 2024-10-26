@@ -17,10 +17,6 @@ class TaskInput(BaseModel):
 class TaskUpdate(BaseModel):
     title: str
     description: str
-    stack: List[int]
-    position: int
-    points: List[int]
-    comments: List[int]
 
     class Config:
         orm_mode = True

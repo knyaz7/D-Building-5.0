@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.Models.Role import Role
 from src.Models.User import User
-from src.Schemas.UserSchemas import UserInput, UserOutput, UserOutputTokens
+from src.Schemas.UserSchemas import UserInput, UserOutput, UserOutputTokens, UserInputUpdate
 from src.Controllers.AuthController import AuthController
 
 
@@ -59,7 +59,7 @@ class UserController:
         )
 
     @staticmethod
-    async def update(user_id: int, user_data: UserInput, session: AsyncSession) -> UserOutput:
+    async def update(user_id: int, user_data: UserInputUpdate, session: AsyncSession) -> UserOutput:
         result = await session.execute(select(User).where(User.id == user_id))
         user = result.scalar_one_or_none()
         if user is None:

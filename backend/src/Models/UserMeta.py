@@ -7,7 +7,7 @@ class UserMeta(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    position_id = Column(Integer, ForeignKey("positions.id"))
+    position_id = Column(Integer, ForeignKey("positions.id"), nullable=True)
     description = Column(String, nullable=False)
     stack = Column(ARRAY(Integer), default=list)
     employed_at = Column(DateTime(timezone=True), nullable=False)

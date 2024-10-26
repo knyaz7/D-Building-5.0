@@ -1,110 +1,114 @@
-// src/components/TaskBoard.js
-import React, { useRef, useState } from 'react';
-import './TaskBoard.css'; // Импорт стилей
-import { updateTaskStatus } from '../api';
+import React, { useState, useEffect } from 'react';
+import './TaskBoard.css';
+import { updateTaskStatus, GetTasks } from '../api';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-const TaskBoard = ({ tasks, onDeleteTask, onOpenTask, onMoveTask }) => {
+const TaskBoard = ({ onDeleteTask, onOpenTask, onMoveTask }) => {
   const columns = {
-    todo: 'To Do',
-    todo_suka: 'To Do Suka',
-    inProgress: 'In Progress',
-    testing: 'Testing',
-    done: 'Done',
+    1: 'To Do',
+    2: 'To Do Faster',
+    3: 'In Progress',
+    4: 'Testing',
+    5: 'Done',
   };
 
-  const getTasksByStatus = (status) => {
-    return tasks.filter((task) => task.status === status);
-  };
-
-  const [draggedTask, setDraggedTask] = useState(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleMouseDown = (e, task) => {
-    const taskElement = e.currentTarget;
-    const rect = taskElement.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-
-    setDraggedTask(task);
-    setDragOffset({ x: offsetX, y: offsetY });
-    setIsDragging(true);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging || !draggedTask) return;
-
-    const taskElement = document.getElementById(`task-${draggedTask.id}`);
-    if (taskElement) {
-      taskElement.style.position = 'absolute';
-      taskElement.style.left = `${e.clientX - dragOffset.x}px`;
-      taskElement.style.top = `${e.clientY - dragOffset.y}px`;
-      taskElement.classList.add('dragging');
-    }
-  };
-
-  const handleMouseUp = async (e) => {
-    if (!isDragging || !draggedTask) return;
-
-    const column = e.target.closest('.column');
-    if (column) {
-      const status = column.getAttribute('data-status');
+  useEffect(() => {
+    const fetchTasks = async () => {
       setIsLoading(true);
       try {
-        await updateTaskStatus(draggedTask.id, status);
-        onMoveTask(draggedTask.id, status);
+        const stagesData = await GetTasks();
+        
+        // Добавляем статус для каждой задачи
+        const loadedTasks = stagesData.flatMap(stage =>
+          stage.tasks.map(task => ({ ...task, statusId: stage.id }))
+        );
+        
+        setTasks(loadedTasks);
       } catch (error) {
-        console.error('Failed to update task status:', error);
+        console.error('Ошибка при загрузке задач:', error);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
-    const taskElement = document.getElementById(`task-${draggedTask.id}`);
-    if (taskElement) {
-      taskElement.classList.remove('dragging');
-      taskElement.style.position = 'static';
-    }
+    fetchTasks();
+  }, []);
 
-    setDraggedTask(null);
-    setIsDragging(false);
+  const onDragEnd = async (result) => {
+    const { draggableId, source, destination } = result;
+
+    // Проверяем, что есть куда перемещать задачу
+    if (!destination || source.droppableId === destination.droppableId) return;
+
+    const taskId = parseInt(draggableId, 10);
+    const fromColumnId = parseInt(source.droppableId, 10);
+    const toColumnId = parseInt(destination.droppableId, 10);
+
+    // Обновление на клиенте
+    setTasks(prevTasks =>
+      prevTasks.map(task => 
+        task.id === taskId ? { ...task, statusId: toColumnId } : task
+      )
+    );
+
+    // Отправка данных на сервер
+    try {
+      await updateTaskStatus(taskId, fromColumnId, toColumnId);
+    } catch (error) {
+      console.error('Ошибка при обновлении задачи на сервере:', error);
+    }
   };
 
   return (
-    <div
-      className="task-board"
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
-      {Object.keys(columns).map((status) => (
-        <div
-          key={status}
-          className="column"
-          data-status={status}
-        >
-          <h2>{columns[status]}</h2>
-          <ul>
-            {getTasksByStatus(status).map((task) => (
-              <li
-                key={task.id}
-                id={`task-${task.id}`}
-                className="task"
-                onMouseDown={(e) => handleMouseDown(e, task)}
-              >
-                <h3>{task.title}</h3>
-                <p>Исполнитель: {task.assignee}</p>
-                <div>
-                  <button onClick={() => onOpenTask(task.id)}>Открыть</button>
-                  <button onClick={() => onDeleteTask(task.id)}>Удалить</button>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="task-board">
+        {isLoading ? (
+          <div className="loading-indicator">Загрузка задач...</div>
+        ) : (
+          Object.keys(columns).map((statusId) => (
+            <Droppable droppableId={statusId} key={statusId}>
+              {(provided) => (
+                <div
+                  className="column"
+                  data-status={statusId}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <h2>{columns[statusId]}</h2>
+                  <ul>
+                    {tasks
+                      .filter(task => task.statusId === Number(statusId))
+                      .map((task, index) => (
+                        <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
+                          {(provided) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="task"
+                            >
+                              <h3>{task.title}</h3>
+                              <p>Исполнитель: {task.assignee}</p>
+                              <div>
+                                <button onClick={() => onOpenTask(task.id)}>Открыть</button>
+                                <button onClick={() => onDeleteTask(task.id)}>Удалить</button>
+                              </div>
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </ul>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      {isLoading && <div className="loading-indicator">Перемещение задачи...</div>}
-    </div>
+              )}
+            </Droppable>
+          ))
+        )}
+      </div>
+    </DragDropContext>
   );
 };
 
