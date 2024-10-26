@@ -10,6 +10,7 @@ from src.Routers.v1.point_router import router as point_router
 from src.Routers.v1.tool_router import router as tool_router
 from src.Routers.v1.position_router import router as position_router
 from src.Routers.v1.comment_router import router as comment_router
+from src.Routers.v1.user_meta_router import router as user_meta_router
 #from src.Routers.v1.command_router import router as command_router
 
 from src.Helpers.MiddlewareHelper import MiddlewareHelper
@@ -32,4 +33,5 @@ app.include_router(point_router)
 app.include_router(tool_router)
 app.include_router(position_router)
 app.include_router(comment_router)
+app.include_router(user_meta_router)
 #app.include_router(command_router)
