@@ -12,3 +12,4 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
 
     commands = relationship("CommandUser", back_populates="user")
+    comments = relationship("Comment", back_populates="user")
