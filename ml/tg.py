@@ -54,7 +54,6 @@ def extract_tasks_from_text(text, selected_numbers):
 
 @app.on_message(filters.private)
 async def print_bot_responses(client, message):
-    print(message)
     username = "Bebrbulinka"  # Это должно соответствовать пользователю, с которым мы работаем
     task = "Завершить финализацию документации по требованиям для новой функции учета расходов."
     user = await app.get_users(username)
@@ -68,10 +67,7 @@ async def print_bot_responses(client, message):
             extract_tasks_formatted = "\n".join([f"{i + 1}. TASK: {item}" for i, item in enumerate(extract_tasks)])
             await client.send_message(message.chat.id, f"Задачи делегированы:\n\n"
                                                        f"{extract_tasks_formatted}\n\n")
-            print(extract_tasks)
-            print(extract_tasks_formatted)
-            print(history[1])
-            print(last_message)
+
 
         else:
             rating, subtasks = evaluate_task("Петров Петр Петрович", "Системный аналитик", message.text, task)
