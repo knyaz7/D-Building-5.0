@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 from src.Config.db import Base
 
 
@@ -9,3 +10,5 @@ class User(Base):
     username = Column(String(50), unique=True, nullable=False)
     fullname = Column(String(50), unique=False, nullable=False)
     password_hash = Column(String(255), nullable=False)
+
+    commands = relationship("CommandUser", back_populates="user")
