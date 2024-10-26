@@ -9,5 +9,3 @@ class Comment(Base):
     id = Column(Integer, primary_key=True)
     text = Column(String(255), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
-
-    user = relationship("User", back_populates="comments")

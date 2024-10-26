@@ -10,6 +10,3 @@ class User(Base):
     username = Column(String(50), unique=True, nullable=False)
     fullname = Column(String(50), unique=False, nullable=False)
     password_hash = Column(String(255), nullable=False)
-
-    commands = relationship("CommandUser", back_populates="user")
-    comments = relationship("Comment", back_populates="user")

@@ -13,5 +13,3 @@ class Task(Base):
     points = Column(ARRAY(Integer), nullable=True)
     comments = Column(ARRAY(Integer), nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-
-    user = relationship("User", back_populates="tasks")

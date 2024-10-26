@@ -8,5 +8,3 @@ class Position(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True, nullable=False)
-
-    comments = relationship("UserMeta", back_populates="position")

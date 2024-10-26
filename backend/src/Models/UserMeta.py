@@ -10,5 +10,3 @@ class UserMeta(Base):
     employed_at = Column(DateTime, nullable=False)
     stack = Column(ARRAY(Integer))
     position_id = Column(Integer, ForeignKey("position.id"))
-
-    position = relationship("Position", back_populates="users_meta")
