@@ -12,13 +12,13 @@ from src.Controllers.AuthController import AuthController
 
 class UserController:
     @staticmethod
-    async def get_users(session: AsyncSession) -> List[UserOutput]:
+    async def get_all(session: AsyncSession) -> List[UserOutput]:
         result = await session.execute(select(User))
         users = result.scalars().all()
         return [UserOutput.from_orm(user) for user in users]
 
     @staticmethod
-    async def get_user(user_id: int, session: AsyncSession) -> UserOutput:
+    async def get_one(user_id: int, session: AsyncSession) -> UserOutput:
         result = await session.execute(select(User).where(User.id == user_id))
         user = result.scalar_one_or_none()
         if user is None:
@@ -26,7 +26,7 @@ class UserController:
         return UserOutput.from_orm(user)
 
     @staticmethod
-    async def create_user(user: UserInput, session: AsyncSession) -> UserOutputTokens:
+    async def create(user: UserInput, session: AsyncSession) -> UserOutputTokens:
         existing_user = await session.execute(
             select(User).filter(or_(User.username == user.username, User.fullname == user.fullname))
         )
@@ -59,7 +59,7 @@ class UserController:
         )
 
     @staticmethod
-    async def put_user(user_id: int, user_data: UserInput, session: AsyncSession) -> UserOutput:
+    async def update(user_id: int, user_data: UserInput, session: AsyncSession) -> UserOutput:
         result = await session.execute(select(User).where(User.id == user_id))
         user = result.scalar_one_or_none()
         if user is None:
@@ -75,3 +75,13 @@ class UserController:
 
         # Сериализация обновленного пользователя
         return UserOutput.from_orm(user)
+
+    @staticmethod
+    async def delete(user_id: int, session: AsyncSession):
+        result = await session.execute(select(User).where(User.id == user_id))
+        user = result.scalar_one_or_none()
+        if user is None:
+            raise HTTPException(status_code=404, detail="Пользователь не найден")
+
+        await session.delete(user)
+        await session.commit()
