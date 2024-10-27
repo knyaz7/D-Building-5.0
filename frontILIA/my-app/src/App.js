@@ -9,7 +9,7 @@ import '@fontsource/jura/300.css'; // Light
 import '@fontsource/jura/400.css'; // Regular
 import '@fontsource/jura/500.css'; // Medium
 import '@fontsource/jura/700.css'; // Bold
-import AdminPanel from './AdmPan';
+import ProjectManage from './ProjectManage';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       <div className="App">   
         <Routes>
           <Route path="/adm-pan/add" element={<Add />} />
-          <Route path="/adm-pan" element={<AdminPanel />} />
+          <Route path="/adm-pan" element={<ProjectManage />} />
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
