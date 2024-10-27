@@ -49,6 +49,7 @@ async def evaluate_employees(employees, task, required_stack):
 
         # Добавляем информацию о сотруднике и его оценке в список
         evaluations.append({
+            'id': employee['id'],
             'fullname': fullname,
             'position': position,
             'res': res,
