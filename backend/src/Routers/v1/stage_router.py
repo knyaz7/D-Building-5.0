@@ -41,13 +41,13 @@ async def move_task(task_id: int, move: MoveTask, token: str = Depends(oauth2_sc
     return await StageController.move_task(task_id, move, session)
 
 
-@router.post("/{stage_id}/add_task/", response_model=TaskOutput)
-async def create_task(stage_id: int, task_data: TaskInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await StageController.create_task(stage_id, task_data, session)
-
-
-@router.delete("/{stage_id}/delete_stack/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_task(stage_id: int, task_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
-    return await StageController.delete_task(stage_id, task_id, session)
+# @router.post("/{stage_id}/add_task/", response_model=TaskOutput)
+# async def create_task(stage_id: int, task_data: TaskInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await StageController.create_task(stage_id, task_data, session)
+#
+#
+# @router.delete("/{stage_id}/delete_stack/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+# async def delete_task(stage_id: int, task_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+#     await AuthController.verify_token(token, session)
+#     return await StageController.delete_task(stage_id, task_id, session)
