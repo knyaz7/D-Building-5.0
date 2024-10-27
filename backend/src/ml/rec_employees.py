@@ -8,7 +8,7 @@ async def evaluate_employees(employees, task, required_stack):
     Оценивает сотрудников по заданной задаче и возвращает ранжированный список по рекомендациям.
 
     :param employees: Список сотрудников, где каждый сотрудник представлен как словарь с ключами:
-                      'FIO', 'job_title', 'message', 'stack'.
+                      'fullname', 'position', 'description', 'stack', 'rating'.
     :param task: Задача, по которой проводится оценка.
     :param required_stack: Стек технологий, необходимый для выполнения задачи.
     :return: Отсортированный список сотрудников по убыванию оценки выполнения задачи.
@@ -21,8 +21,8 @@ async def evaluate_employees(employees, task, required_stack):
         if not set(required_stack).issubset(set(employee['stack'])):
             continue  # Пропускаем, если стек технологий не соответствует
 
-        FIO = employee['FIO']
-        job_title = employee['job_title']
+        fullname = employee['fullname']
+        position = employee['position']
         description = employee['description']
         rating = employee['rating']
 
@@ -31,14 +31,14 @@ async def evaluate_employees(employees, task, required_stack):
             model="gpt-4",
             messages=[{
                 "role": "user",
-                "content": f"Поставь рейтинг человека от 1 до 10, насколько сотрудник подходит для задачи: {task}.  {job_title} - {FIO}. Описание сотрудника: {description}. Рейтинг выполненности задач: {rating}. Пиши только число от 1 до 10."
+                "content": f"Поставь рейтинг человека от 1 до 10, насколько сотрудник подходит для задачи: {task}.  {position} - {fullname}. Описание сотрудника: {description}. Рейтинг выполненности задач: {rating}. Пиши только число от 1 до 10."
             }],
             provider=g4f.Provider.Ai4Chat
         )
 
         # Получение текста ответа от модели
         result = response.choices[0].message.content.strip()
-        print(f"Результат от модели для {FIO}: {result}")
+        print(f"Результат от модели для {fullname}: {result}")
 
         # Поиск числовой оценки выполнения задачи с помощью регулярного выражения
         match = re.search(r'\b(10|[1-9])\b', result)
@@ -49,8 +49,8 @@ async def evaluate_employees(employees, task, required_stack):
 
         # Добавляем информацию о сотруднике и его оценке в список
         evaluations.append({
-            'FIO': FIO,
-            'job_title': job_title,
+            'FIO': fullname,
+            'job_title': position,
             'res': res,
         })
 
