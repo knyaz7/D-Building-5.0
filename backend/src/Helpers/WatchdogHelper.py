@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
 
 from src.Config.db import get_session
-from src.Models.MasterTask import MasterTask
-from src.Models.User import User
+from src.Controllers.MasterTaskController import MasterTaskController
+from src.Controllers.UserController import UserController
 
 from src.ml.tg import create_chat_and_send_message
 
@@ -14,8 +14,7 @@ class WatchdogHelper:
     
     @staticmethod
     async def check_deadlines(session: AsyncSession = Depends(get_session)):
-        query = await session.execute(select(MasterTask))
-        master_tasks = query.scalars().all()
+        master_tasks = await MasterTaskController.get_all(session)
         current_date = datetime.now()
 
         for mt in master_tasks:
@@ -23,6 +22,5 @@ class WatchdogHelper:
             date_diff = mt.deadline - current_date
             if date_diff <= threshold:
                 for task in mt.tasks:
-                    query = await session.execute(select(User).where(User.id == task.user_id))
-                    user = query.scalar_one()
+                    user = UserController.get_one(task.user_id, session)
                     create_chat_and_send_message(user.username, task, date_diff)
