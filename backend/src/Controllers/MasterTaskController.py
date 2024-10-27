@@ -93,42 +93,44 @@ class MasterTaskController:
 
     @staticmethod
     async def create_task(master_task_id: int, task_data: TaskInput, session: AsyncSession) -> TaskOutput:
-        user_stmt = await session.execute(
-            select(User).where(User.id == task_data.user_id)
-        )
-        user = user_stmt.scalar_one_or_none()
-        if user is None:
-            raise HTTPException(404, "User not found")
+        with session.no_autoflush:
+            user_stmt = await session.execute(
+                select(User).where(User.id == task_data.user_id)
+            )
+            user = user_stmt.scalar_one_or_none()
+            if user is None:
+                raise HTTPException(404, "User not found")
 
-        task = await TaskController.create(task_data, session)
-        result = await session.execute(
-            select(MasterTask).where(MasterTask.id == master_task_id)
-        )
-        master_task = result.scalar_one_or_none()
-        if master_task is None:
-            raise HTTPException(400, "Bad request")
+            task = await TaskController.create(task_data, session)
+            await session.rollback()
+            result = await session.execute(
+                select(MasterTask).where(MasterTask.id == master_task_id)
+            )
+            master_task = result.scalar_one_or_none()
+            if master_task is None:
+                raise HTTPException(400, "Bad request")
 
-        await session.execute(
-            update(MasterTask)
-            .where(MasterTask.id == master_task_id)
-            .values(tasks=literal(task.id).concat(MasterTask.tasks))
-        )
+            await session.execute(
+                update(MasterTask)
+                .where(MasterTask.id == master_task_id)
+                .values(tasks=literal(task.id).concat(MasterTask.tasks))
+            )
 
-        to_stage_result = await session.execute(
-            select(Stage).where(Stage.id == 1)
-        )
-        to_stage = to_stage_result.scalar_one_or_none()
-        if to_stage is None:
-            raise HTTPException(400, "Bad request")
+            to_stage_result = await session.execute(
+                select(Stage).where(Stage.id == 1)
+            )
+            to_stage = to_stage_result.scalar_one_or_none()
+            if to_stage is None:
+                raise HTTPException(400, "Bad request")
 
-        await session.execute(
-            update(Stage)
-            .where(Stage.id == to_stage.id)
-            .values(tasks=literal(task.id).concat(Stage.tasks))
-        )
+            await session.execute(
+                update(Stage)
+                .where(Stage.id == to_stage.id)
+                .values(tasks=literal(task.id).concat(Stage.tasks))
+            )
 
-        await session.commit()
-        return TaskOutput.from_orm(task)
+            await session.commit()
+            return task
 
     @staticmethod
     async def delete_task(master_task_id: int, task_id: int, session: AsyncSession):

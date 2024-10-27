@@ -13,6 +13,11 @@ class TaskInput(BaseModel):
     description: str
     stack: Optional[List[int]] = None
 
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
+
 
 class TaskUpdate(BaseModel):
     title: str
