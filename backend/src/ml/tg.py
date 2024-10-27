@@ -87,8 +87,7 @@ async def print_bot_responses(client, message):
         if last_message.text and last_message.text.replace(" ", "").isdigit():
             extract_tasks = extract_tasks_from_text(history[1].text, last_message.text)
             extract_tasks_formatted = "\n".join([f"{i + 1}. TASK: {item}" for i, item in enumerate(extract_tasks)])
-            await client.send_message(message.chat.id, f"Задачи делегированы:\n\n"
-                                                       f"{extract_tasks_formatted}\n\n")
+            await client.send_message(message.chat.id, f"Задачи делегированы:\n\n{extract_tasks_formatted}\n\n")
         else:
             rating, subtasks = evaluate_task("Петров Петр Петрович", "Системный аналитик", message.text, task)
 
