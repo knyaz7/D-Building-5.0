@@ -88,7 +88,7 @@ class TaskController:
         await session.commit()
         await session.refresh(new_task)
 
-        return TaskOutput.from_orm(new_task)
+        return await TaskController.get_one(new_task.id, session)
 
     @staticmethod
     async def update(task_id: int, task_data: TaskUpdate, session: AsyncSession) -> TaskOutput:
