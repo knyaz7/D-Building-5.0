@@ -29,11 +29,13 @@ scheduler.start()
 
 MiddlewareHelper.setCors(app)
 
+
 @app.on_event("startup")
 async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     await SeederHelper.run_seeder()
+
 
 app.include_router(role_router)
 app.include_router(user_router)

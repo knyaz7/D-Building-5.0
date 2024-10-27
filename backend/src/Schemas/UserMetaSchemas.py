@@ -10,6 +10,7 @@ class UserMetaInput(BaseModel):
     description: str
     employed_at: datetime
     stack: Optional[List[int]] = None
+    rating: Optional[float] = None
 
 
 class UserMetaOutput(BaseModel):
