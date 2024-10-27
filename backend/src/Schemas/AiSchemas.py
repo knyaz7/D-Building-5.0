@@ -2,4 +2,5 @@ from pydantic import BaseModel
 from typing import List
 
 class AiInput(BaseModel):
-    stack: List[int] = None
+    master_task_id: int
+    stack: List[int]
