@@ -19,8 +19,8 @@ from src.Models.Position import Position
 
 router = APIRouter(prefix="/api/v1/ai", tags=["ai"])
 
-@router.get("/{master_task_id}", response_model=List[UserOutput])
-async def get_rec_users(master_task_id: int, ai_data: AiInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+@router.post("/", response_model=List[UserOutput])  
+async def get_rec_users(ai_data: AiInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
     await AuthController.verify_token(token, session)
     query = await session.execute(select(User))
     users = query.scalars().all()
@@ -37,13 +37,13 @@ async def get_rec_users(master_task_id: int, ai_data: AiInput, token: str = Depe
 
         dict_users.append({
             'fullname':indexed_users[um.user_id].fullname,
-            'position':position,
+            'position':position.name,
             'description':um.description,
             'stack':um.stack,
             'rating':um.rating
         })
 
-    query = await session.execute(select(MasterTask).where(MasterTask.id == master_task_id))
+    query = await session.execute(select(MasterTask).where(MasterTask.id == ai_data.master_task_id))
     master_task = query.scalar_one()
 
     return await evaluate_employees(dict_users, master_task.name, ai_data.stack)
