@@ -80,7 +80,8 @@ const TaskBoard = ({ onDeleteTask, onOpenTask, onMoveTask }) => {
                   <h2>{columns[statusId]}</h2>
                   <ul>
                     {tasks
-                      .filter(task => task.statusId === Number(statusId))
+                      .filter(task => task.statusId === Number(statusId)) // Фильтруем по statusId
+                      .sort((a, b) => a.position - b.position) // Сортируем по position
                       .map((task, index) => (
                         <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                           {(provided) => (
