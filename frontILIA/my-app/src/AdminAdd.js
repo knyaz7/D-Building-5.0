@@ -9,6 +9,17 @@ const participants = [
     { name: "Иванов И.С." },
 ];
 
+
+const axiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    'Content-Type': 'application/json',
+  },
+});
+
+
+
 export default () => {
     const [selectedParticipant, setSelectedParticipant] = useState(null);
     const [selectedParticipants, setSelectedParticipants] = useState([]);
