@@ -98,7 +98,7 @@ class MasterTaskController:
         )
         user = user_stmt.scalar_one_or_none()
         if user is None:
-            raise HTTPException(404, "AAAAAAAAAAAa")
+            raise HTTPException(404, "User not found")
 
         task = await TaskController.create(task_data, session)
         result = await session.execute(
@@ -106,7 +106,7 @@ class MasterTaskController:
         )
         master_task = result.scalar_one_or_none()
         if master_task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         await session.execute(
             update(MasterTask)
@@ -119,7 +119,7 @@ class MasterTaskController:
         )
         to_stage = to_stage_result.scalar_one_or_none()
         if to_stage is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         await session.execute(
             update(Stage)
@@ -138,7 +138,7 @@ class MasterTaskController:
         )
         master_task = result.scalar_one_or_none()
         if master_task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         # Убираем comment_id из списка комментариев
         current_tasks = master_task.tasks or []
@@ -156,7 +156,7 @@ class MasterTaskController:
         )
         from_stage = from_stage_result.scalar_one_or_none()
         if from_stage is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         current_tasks = from_stage.tasks or []
         updated_tasks = [cid for cid in current_tasks if cid != task_id]

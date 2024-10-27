@@ -86,7 +86,7 @@ class StageController:
         )
         stage = result.scalar_one_or_none()
         if stage is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         await session.execute(
             update(Stage)
@@ -105,7 +105,7 @@ class StageController:
         )
         stage = result.scalar_one_or_none()
         if stage is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         # Убираем comment_id из списка комментариев
         current_tasks = stage.tasks or []
@@ -127,14 +127,14 @@ class StageController:
         )
         from_stage = from_stage_result.scalar_one_or_none()
         if from_stage is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         to_stage_result = await session.execute(
             select(Stage).where(Stage.id == move.to_stage_id)
         )
         to_stage = to_stage_result.scalar_one_or_none()
         if to_stage is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         await session.execute(
             update(Stage)

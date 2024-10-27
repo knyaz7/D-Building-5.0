@@ -144,7 +144,7 @@ class TaskController:
         )
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         await session.execute(
             update(Task)
@@ -163,7 +163,7 @@ class TaskController:
         )
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         await session.execute(
             update(Task)
@@ -196,7 +196,7 @@ class TaskController:
         )
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         # Убираем comment_id из списка комментариев
         current_comments = task.comments or []
@@ -219,7 +219,7 @@ class TaskController:
         )
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         # Убираем comment_id из списка комментариев
         current_points = task.points or []
@@ -242,7 +242,7 @@ class TaskController:
         )
         task = result.scalar_one_or_none()
         if task is None:
-            raise HTTPException(400, "AAAAAAAAAAAa")
+            raise HTTPException(400, "Bad request")
 
         # Убираем comment_id из списка комментариев
         current_tools = task.stack or []
