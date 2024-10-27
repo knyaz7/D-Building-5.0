@@ -49,8 +49,8 @@ async def evaluate_employees(employees, task, required_stack):
 
         # Добавляем информацию о сотруднике и его оценке в список
         evaluations.append({
-            'FIO': fullname,
-            'job_title': position,
+            'fullname': fullname,
+            'position': position,
             'res': res,
         })
 
