@@ -97,8 +97,8 @@ task = "Завершить разработку нового функциона�
 required_stack = ['Python']  # Необходимый стек технологий для задачи
 
 # Вызов функции
-ranked_employees = evaluate_employees(employees, task, required_stack)
+# ranked_employees = evaluate_employees(employees, task, required_stack)
 
-# Вывод результатов
-for employee in ranked_employees:
-    print(f"{employee['FIO']} - Рейтинг: {employee['res']} ")
+# # Вывод результатов
+# for employee in ranked_employees:
+#     print(f"{employee['FIO']} - Рейтинг: {employee['res']} ")

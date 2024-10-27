@@ -66,7 +66,8 @@ function Login() {
           console.log('Авторизация успешна:', response.data);
 
           // Сохранение токена в localStorage
-          localStorage.setItem('token', response.data.access_key);
+          localStorage.setItem('access_token', response.data.access_token);
+          localStorage.setItem('refresh_token', response.data.refresh_token);
 
           // Перенаправление на главную страницу или другую страницу
           navigate('/');
