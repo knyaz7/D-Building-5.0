@@ -10,7 +10,7 @@ const Main = () => {
         <div className="header">
           <h4 className="logo">Логотип</h4>
 
-          <div className="nav">
+      ч    <div className="nav">
             <h4 className="nav-item active">Главная</h4>
             <h4 className="nav-item">О нас</h4>
           </div>
@@ -22,7 +22,9 @@ const Main = () => {
             <Link to="/register">
               <button className="button contained">Регистрация</button>
             </Link>
+            
           </div>
+
         </div>
         <Tasks />
       </div>
