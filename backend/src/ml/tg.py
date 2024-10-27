@@ -109,19 +109,21 @@ async def get_chat_history(client, chat_id, limit=5):
     return formatted_history, history
 
 
-async def main():
-    unfulfilled_list_point = [
-        "Сделать",
-        "Запушить",
-        "Протестировать",
-        "Проинформировать"
-    ]
-    username = "Bebrbulinka"
-    await app.start()
-    await create_chat_and_send_message(username,
-                                       "Сделать дизайн сайта.",
-                                       unfulfilled_list_point, 4)
-    await asyncio.Event().wait()  # Используем Event для ожидания событий
+# async def main():
+#     unfulfilled_list_point = [
+#         "Сделать",
+#         "Запушить",
+#         "Протестировать",
+#         "Проинформировать"
+#     ]
+#     username = "Bebrbulinka"
+#     await app.start()
+#     await create_chat_and_send_message(
+#         username,
+#         "Сделать дизайн сайта.",
+#         4
+#     )
+#     await asyncio.Event().wait()  # Используем Event для ожидания событий
 
 
 # if __name__ == "__main__":
