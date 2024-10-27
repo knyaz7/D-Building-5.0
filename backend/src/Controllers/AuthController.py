@@ -32,7 +32,7 @@ class AuthController:
         return AuthController.pwd_context.hash(password)
 
     @staticmethod
-    async def verify_token(token: str, session: AsyncSession) -> dict:
+    async def verify_token(token: str, session: AsyncSession, req_role: int = 2) -> dict:
         try:
             payload = jwt.decode(token, AuthController.SECRET_KEY, algorithms=[AuthController.ALGORITHM])
             user_id: int = payload.get("user_id")
@@ -45,6 +45,9 @@ class AuthController:
 
             if user is None:
                 raise HTTPException(status_code=403, detail="User not found")
+
+            if user.role_id > req_role:
+                raise HTTPException(status_code=403, detail="Access denied")
 
             return {"user_id": user_id, "username": username}
         except jwt.ExpiredSignatureError:

@@ -37,7 +37,7 @@ async def get_stage(stage_id: int, token: str = Depends(oauth2_scheme), session:
 #     return await StageController.update(stage_id, task_data, session)
 @router.patch("/moves_task/{task_id}/", status_code=status.HTTP_204_NO_CONTENT)
 async def move_task(task_id: int, move: MoveTask, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await StageController.move_task(task_id, move, session)
 
 
