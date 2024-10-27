@@ -3,11 +3,11 @@ from pydub import AudioSegment
 import speech_recognition as sr
 import asyncio
 
-from os import getenv
+import os
 
 from src.ml.evaluate_task import evaluate_task
 
-app = Client("TaskManagerAI", api_id=getenv('API_ID'), api_hash=getenv('API_HASH'))
+app = Client("TaskManagerAI", api_id=os.getenv('API_ID'), api_hash=os.getenv('API_HASH'))
 
 
 async def create_chat_and_send_message(username, task, count_day):
@@ -124,5 +124,5 @@ async def main():
     await asyncio.Event().wait()  # Используем Event для ожидания событий
 
 
-if __name__ == "__main__":
-    app.run(main())
+# if __name__ == "__main__":
+#     app.run(main())
