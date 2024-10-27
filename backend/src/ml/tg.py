@@ -1,14 +1,13 @@
 from pyrogram import Client, filters
-from src.ml.evaluate_task import evaluate_task
-import speech_recognition as sr
 from pydub import AudioSegment
+import speech_recognition as sr
 import asyncio
 
-# Замените значениями вашего API_ID и API_HASH
-API_ID = "24081739"
-API_HASH = "8bbd21a1b4be67a4084d2c4ddd3194a9"
+from os import getenv
 
-app = Client("TaskManagerAI", api_id=API_ID, api_hash=API_HASH)
+from src.ml.evaluate_task import evaluate_task
+
+app = Client("TaskManagerAI", api_id=getenv('API_ID'), api_hash=getenv('API_HASH'))
 
 
 async def create_chat_and_send_message(username, task, count_day):
