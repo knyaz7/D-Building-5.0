@@ -1,52 +1,30 @@
 // src/api.js
 
+import axiosInstance from '../../../axiosInstance.js';
 
-import axios from 'axios';
 
+// Функция для обновления статуса задачи
 export const updateTaskStatus = async (taskId, FirstColumnId, SecondColumnId) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/tasks/${taskId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IkJlYnJidWxpbmthIiwiZXhwIjoxNzI5OTgyMTIyfQ.7LtZ79-qGQ1egdU0MohnXbqWWZF-jMoac7LJ2qx_QHQ',
-      },
-      body: JSON.stringify({
-        from_column: FirstColumnId,
-        to_column: SecondColumnId,
-      }),
+    const response = await axiosInstance.patch(`/stages/moves_task/${taskId}`, {
+      from_stage_id: FirstColumnId,
+      to_stage_id: SecondColumnId,
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to update task');
-    }
-
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
-    console.error(error);
+    console.error('Ошибка при обновлении статуса задачи:', error);
     throw error;
   }
 };
 
-
-
-const API_BASE_URL = 'http://localhost:8000/api/v1'; // Базовый URL
-
 // Функция для получения задач по этапам
 export const GetTasks = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/stages/`, {
-      headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IkJlYnJidWxpbmthIiwiZXhwIjoxNzI5OTgyMTIyfQ.7LtZ79-qGQ1egdU0MohnXbqWWZF-jMoac7LJ2qx_QHQ'
-      }
-    });
-    return response.data; // Возвращаем данные этапов с задачами
+    const response = await axiosInstance.get('/stages/');
+    return response.data;
   } catch (error) {
     console.error('Ошибка при получении задач:', error);
-    throw error; // Перебрасываем ошибку для обработки в вызывающем коде
+    throw error;
   }
 };
-
-
-

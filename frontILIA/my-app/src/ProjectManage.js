@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ProjectCard from "./ProjectCard";
 import "./AdminPanel.css";
 import womanAvatar1 from "./woman-avatar-1.png";
@@ -29,7 +30,9 @@ export default () => {
                         />
                         <div className="text-wrapper-2">Admin</div>
                     </div>
-                    <button className="add-project-button">Добавить проект</button>
+                    <Link to="/adm-pan/add">
+                        <button className="add-project-button">Добавить проект</button>
+                    </Link>
                 </div>
                 <div className="projects-list">
                     {projects.map((project, index) => (
