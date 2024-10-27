@@ -5,9 +5,9 @@ const ProjectCard = ({ project }) => {
         <div className="project-card">
             <div className="project-name">{project.name}</div>
             <div className="project-details">
-                <div className="detail-label">количество человек:</div>
+                <div className="detail-label">Количество человек:</div>
                 <div className="detail-value">{project.peopleCount}</div>
-                <button className="go-button">перейти</button>
+                <button className="go-button">Перейти</button>
             </div>
         </div>
     );

@@ -1,9 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import "./AdminPanel.css";
 import womanAvatar1 from "./woman-avatar-1.png";
 
+const participants = [
+    { name: "Трифанов И.Н." },
+    { name: "Алексеев П.К." },
+    { name: "Чипигин А.С." },
+    { name: "Иванов И.С." },
+];
+
 export default () => {
+    const [selectedParticipant, setSelectedParticipant] = useState(null);
+    const [selectedParticipants, setSelectedParticipants] = useState([]);
+    const [tasks, setTasks] = useState([]);
+
+    const handleParticipantClick = (participant) => {
+        setSelectedParticipant(participant);
+    };
+
+    const handleCheckboxChange = (event, participant) => {
+        if (event.target.checked) {
+            setSelectedParticipants([...selectedParticipants, participant]);
+        } else {
+            setSelectedParticipants(selectedParticipants.filter(p => p !== participant));
+        }
+    };
+
+    const addTask = () => {
+        setTasks([...tasks, ""]);
+    };
+
     return (
         <div className="admin-panel">
             <div className="sidebar">
@@ -14,74 +40,77 @@ export default () => {
                 </div>
             </div>
             <div className="main-content">
-                <div className="header">
-                    <div className="user-info">
-                        <img
-                            className="woman-avatar"
-                            alt="Woman avatar"
-                            src={womanAvatar1}
-                        />
-                        <div className="text-wrapper-2">Admin</div>
-                    </div>
-                    <Link to="/adm-pan">
-                        <button className="back-button">Назад</button>
-                    </Link>
-                </div>
                 <div className="content-split">
                     <div className="left-side">
+                        <h1 className="create-project-title">Создание проекта</h1>
                         <div className="input-group">
-                            <label>Название проекта</label>
-                            <input type="text" />
+                            <input type="text" placeholder="Название проекта" />
                         </div>
                         <div className="input-group">
-                            <label>Описание проекта</label>
-                            <textarea />
+                            <textarea placeholder="Описание проекта" />
+                        </div>
+                        <div className="inp_fir">
+                            <input type="text" placeholder="Длительность задачи" />
+                            <input type="date" placeholder="Дата окончания" />
                         </div>
                         <div className="input-group">
-                            <label>Стек технологий</label>
-                            <input type="text" />
+                            <input type="text" placeholder="Стек технологий" list="technologies" />
+                            <datalist id="technologies">
+                                <option value="Next.js" />
+                                <option value="PHP" />
+                                <option value="SQL" />
+                                <option value="React.js" />
+                                <option value="Docker" />
+                            </datalist>
                         </div>
-                        <div className="input-group">
-                            <label>Список предлагаемых участников</label>
-                            <div className="participants-list">
-                                <div className="participant">
-                                    <img src={womanAvatar1} alt="Participant" />
-                                    <span>Трифанов И.Н.</span>
+                        <button className="select-participants-button">Подобрать участников</button>
+                        <div className="participants-list">
+                            {participants.map((participant, index) => (
+                                <div
+                                    key={index}
+                                    className={`participant ${selectedParticipant === participant ? "selected" : ""}`}
+                                    onClick={() => handleParticipantClick(participant)}
+                                >
+                                    <span>{participant.name}</span>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedParticipants.includes(participant)}
+                                        onChange={(event) => handleCheckboxChange(event, participant)}
+                                    />
                                 </div>
-                                <div className="participant">
-                                    <img src={womanAvatar1} alt="Participant" />
-                                    <span>Алексеев П.К.</span>
-                                </div>
-                                <div className="participant">
-                                    <img src={womanAvatar1} alt="Participant" />
-                                    <span>Чипигин А.С.</span>
-                                </div>
-                                <div className="participant">
-                                    <img src={womanAvatar1} alt="Participant" />
-                                    <span>Иванов И.С.</span>
-                                </div>
-                            </div>
+                            ))}
                         </div>
-                        <button className="create-project-button">Создать проект</button>
                     </div>
                     <div className="right-side">
-                        <div className="input-group">
-                            <label>Название задания</label>
-                            <input type="text" />
-                        </div>
-                        <div className="input-group">
-                            <label>Добавить пункт задания</label>
-                            <button className="add-task-button">+</button>
-                        </div>
-                        <div className="input-group">
-                            <label>Добавить вложения</label>
-                            <button className="add-attachment-button">+</button>
-                        </div>
-                        <div className="input-group">
-                            <label>Комментарий</label>
-                            <textarea />
-                        </div>
-                        <button className="save-button">Сохранить</button>
+                        {selectedParticipant ? (
+                            <>
+                                <h2 className="participant-name">{selectedParticipant.name}</h2>
+                                <div className="input-group">
+                                    <input type="text" placeholder="Название задания" />
+                                </div>
+                                <div className="input-group">
+                                    <textarea placeholder="Описание" rows="4" />
+                                </div>
+                                <div className="tasks-container">
+                                    <div className="tasks-list">
+                                        {tasks.map((task, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                placeholder={`Задача ${index + 1}`}
+                                            />
+                                        ))}
+                                    </div>
+                                    <button className="add-task-button" onClick={addTask}>+</button>
+                                </div>
+                                <div className="input-group">
+                                    <textarea placeholder="Комментарий" rows="4" />
+                                </div>
+                                <button className="create-project-button">Создать проект</button>
+                            </>
+                        ) : (
+                            <p className="no-participant-selected">Выберите участника</p>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,214 +1,274 @@
 .admin-panel {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
-    background-color: #000096;
-    width: 88px;
-    height: 100%;
-    border-right: 3px solid #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
+  background-color: #000096;
+  width: 88px;
+  height: 100%;
+  border-right: 3px solid #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
 }
 
 .component-2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .vertical-line {
-    height: 3px;
-    width: 50px;
-    background-color: #ffffff;
+  height: 3px;
+  width: 50px;
+  background-color: #ffffff;
 }
 
 .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #000096;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #000096;
+  padding: 20px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 17px 31px 17px 31px;
-    background-color: #000096;
-    color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 31px 17px 31px;
+  background-color: #000096;
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .user-info {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .woman-avatar {
-    width: 90px;
-    height: 99px;
-    margin-right: 10px;
+  width: 90px;
+  height: 99px;
+  margin-right: 10px;
 }
 
 .text-wrapper-2 {
-    font-family: "Jura", sans-serif;
-    font-size: 28px;
-    font-weight: 700;
+  font-family: "Jura", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .add-project-button, .back-button {
-    background-color: #be22cc;
-    color: #ffffff;
-    font-family: "Jura", sans-serif;
-    font-size: 28px;
-    font-weight: 500;
-    padding: 9px 8px;
-    border: none;
-    cursor: pointer;
+  background-color: #be22cc;
+  color: #ffffff;
+  font-family: "Jura", sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  padding: 9px 8px;
+  border: none;
+  cursor: pointer;
 }
 
 .projects-list {
-    background-color: #fffefe;
-    margin: 30px;
-    margin-bottom: 50px;
-    flex: 1;
-    padding: 30px;
-    border: 3px solid #be22cc;
-    overflow-y: auto;
+  background-color: #fffefe;
+  margin: 30px;
+  margin-bottom: 50px;
+  flex: 1;
+  padding: 30px;
+  border: 3px solid #be22cc;
+  overflow-y: auto;
 }
 
 .project-card {
-    border: 3px solid #000096;
-    padding: 20px;
-    margin-bottom: 20px;
+  border: 3px solid #000096;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .project-name {
-    font-family: "Jura", sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    color: #000096;
-    margin-bottom: 10px;
+  font-family: "Jura", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #000096;
+  margin-bottom: 10px;
 }
 
 .project-details {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .detail-label {
-    font-family: "Jura", sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: #000096;
-    margin-right: 20px;
+  font-family: "Jura", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #000096;
+  margin-right: 20px;
 }
 
 .detail-value {
-    font-family: "Jura", sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #be22cc;
-    margin-right: 20px;
+  font-family: "Jura", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #be22cc;
+  margin-right: 20px;
 }
 
 .go-button {
-    background-color: #000096;
-    color: #fffefe;
-    font-family: "Jura", sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
+  background-color: #000096;
+  color: #fffefe;
+  font-family: "Jura", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
 }
 
 .content-split {
-    display: flex;
-    flex: 1;
-    background-color: #fffefe;
-    border: 3px solid #be22cc;
-    overflow-y: auto;
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
 }
 
 .left-side, .right-side {
-    flex: 1;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  flex: 1;
+  margin: 10px;
+  margin-bottom: 40px;
+  display: flex;
+  background-color: #fffefe;
+  border: 3px solid #be22cc;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.create-project-title {
+  font-family: "Jura", sans-serif;
+  font-size: 48px;
+  font-weight: 1000;
+  color: #000096;
+  margin: 0px 0;
 }
 
 .input-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.input-group label {
-    font-family: "Jura", sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #000096;
-    margin-bottom: 10px;
+.inp_fir {
+  display: flex;
+  gap: 10px;
+}
+
+.inp_fir input {
+  outline: none;
+  flex: 1;
+  padding: 10px;
+  font-family: "Jura", sans-serif;
+  font-size: 20px;
+  border: 2px solid #be22cc;
+  resize: vertical;
 }
 
 .input-group input, .input-group textarea {
-    padding: 10px;
-    font-family: "Jura", sans-serif;
-    font-size: 20px;
-    border: 2px solid #be22cc;
+  outline: none;
+  padding: 10px;
+  font-family: "Jura", sans-serif;
+  font-size: 20px;
+  border: 2px solid #be22cc;
+  resize: vertical;
 }
 
 .participants-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 33vh;
+  overflow-y: auto;
+  padding: 10px;
+  border: 2px solid #be22cc;
 }
 
 .participant {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.participant img {
-    width: 38px;
-    height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border: 2px solid #be22cc;
 }
 
 .participant span {
-    font-family: "Jura", sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #000096;
+  font-family: "Jura", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000096;
 }
 
-.create-project-button, .save-button {
-    background-color: #000096;
-    color: #fffefe;
-    font-family: "Jura", sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    align-self: flex-start;
+.participant.selected {
+  background-color: #be22cc;
+  color: #ffffff;
 }
 
-.add-task-button, .add-attachment-button {
-    background-color: #be22cc;
-    color: #ffffff;
-    font-family: "Jura", sans-serif;
-    font-size: 28px;
-    font-weight: 500;
-    padding: 9px 8px;
-    border: none;
-    cursor: pointer;
-    align-self: flex-start;
+.select-participants-button, .create-project-button, .add-task-button {
+  background-color: #000096;
+  color: #fffefe;
+  font-family: "Jura", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  padding: 10px 20px;
+  margin-top: 50px;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 2px solid #be22cc;
+}
+
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tasks-list input {
+  outline: none;
+  padding: 10px;
+  font-family: "Jura", sans-serif;
+  font-size: 20px;
+  border: 2px solid #be22cc;
+}
+
+.no-participant-selected {
+  font-family: "Jura", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000096;
+  text-align: center;
+}
+
+.participant-name {
+  font-family: "Jura", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #000096;
+  margin-top: 10px;
+  margin-bottom: 2px;
 }
