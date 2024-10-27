@@ -9,11 +9,11 @@ from src.Controllers.AuthController import AuthController, oauth2_scheme
 from src.Controllers.UserMetaController import UserMetaController
 from src.Schemas.UserMetaSchemas import UserMetaInput, UserMetaOutput
 
-router = APIRouter(prefix="/api/v1/user_metas", tags=["Users meta"])
+router = APIRouter(prefix="/api/v1/users_meta", tags=["Users meta"])
 
 
 @router.get("/", response_model=List[UserMetaOutput])
-async def get_user_metas(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+async def get_users_meta(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
     await AuthController.verify_token(token, session, 1)
     return await UserMetaController.get_all(session)
 
