@@ -19,13 +19,12 @@ const GetSteck = async () => {
 };
 
 // Функция для добавления задачи в master_task
-const addTaskToMasterTask = async (master_task_id, user_id, title, description, stack) => {
+const addTaskToMasterTask = async (master_task_id, user_id, title, description) => {
     try {
         const response = await axiosInstance.post(`/master_tasks/${master_task_id}/add_task/`, {
             user_id,
             title,
             description,
-            stack,
         });
         return response.data;
     } catch (error) {
@@ -134,10 +133,10 @@ export default () => {
         try {
             for (const participant of selectedParticipants) {
                     console.log("Добавление задачи для участника:", participant);
-                    const newTask = await addTaskToMasterTask(masterTaskId, participant.id, taskTitle, taskDescription, [parseInt(selectedStack)]);
+                    const newTask = await addTaskToMasterTask(masterTaskId, participant.id, taskTitle, taskDescription);
                     
                     // Добавляем комментарий
-                    // await addCommentToTask(newTask.id, participant.id, "Комментарий к задаче");
+                     await addCommentToTask(newTask.id, participant.id, "Комментарий к задаче");
 
                     // Добавляем точки в задачу
                     // const points = task.points || []; // Предполагается, что задачи могут иметь массив точек
