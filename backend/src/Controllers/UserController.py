@@ -53,6 +53,7 @@ class UserController:
             username=new_user.username,
             fullname=new_user.fullname,
             password_hash=new_user.password_hash,
+            role_id=new_user.role_id,
             access_key=access_token,
             refresh_token=refresh_token,
             token_type="Bearer"
