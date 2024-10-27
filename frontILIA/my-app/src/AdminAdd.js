@@ -50,8 +50,10 @@ export default () => {
                             <textarea placeholder="Описание проекта" />
                         </div>
                         <div className="inp_fir">
-                            <input type="text" placeholder="Длительность задачи" />
-                            <input type="date" placeholder="Дата окончания" />
+                            <div className="date-inputs">
+                                <input type="date" placeholder="Начальная дата" />
+                                <input type="date" placeholder="Конечная дата" />
+                            </div>
                         </div>
                         <div className="input-group">
                             <input type="text" placeholder="Стек технологий" list="technologies" />

@@ -10,7 +10,7 @@ const Main = () => {
         <div className="header">
           <h4 className="logo">Логотип</h4>
 
-      ч    <div className="nav">
+          <div className="nav">
             <h4 className="nav-item active">Главная</h4>
             <h4 className="nav-item">О нас</h4>
           </div>

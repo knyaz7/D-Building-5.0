@@ -11,6 +11,11 @@ import '@fontsource/jura/300.css'; // Light
 import '@fontsource/jura/400.css'; // Regular
 import '@fontsource/jura/500.css'; // Medium
 import '@fontsource/jura/700.css'; // Bold
+<<<<<<< Updated upstream
+=======
+import Task from './frontILIA/my-app/src/Tasks'
+
+>>>>>>> Stashed changes
 
 function App() {
   return (
