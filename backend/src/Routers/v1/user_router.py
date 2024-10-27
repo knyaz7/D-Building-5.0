@@ -14,13 +14,13 @@ router = APIRouter(prefix="/api/v1/users", tags=["Users"])
 
 @router.get("/", response_model=List[UserOutput])
 async def get_users(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await UserController.get_all(session)
 
 
 @router.get("/{user_id}", response_model=UserOutput)
 async def get_user(user_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await UserController.get_one(user_id, session)
 
 
@@ -31,10 +31,10 @@ async def create_user(user: UserInput, session: AsyncSession = Depends(get_sessi
 
 @router.put("/{user_id}", response_model=UserOutput)
 async def update_user(user_id: int, user_data: UserInputUpdate, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await UserController.update(user_id, user_data, session)
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(user_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await UserController.delete(user_id, session)

@@ -35,7 +35,7 @@ async def get_task(task_id: int, token: str = Depends(oauth2_scheme), session: A
 
 @router.put("/{task_id}", response_model=TaskOutput)
 async def update_task(task_id: int, task_data: TaskUpdate, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await TaskController.update(task_id, task_data, session)
 
 
@@ -53,13 +53,13 @@ async def create_comment(task_id: int, comment_data: CommentInput, token: str = 
 
 @router.post("/{task_id}/add_point/", response_model=PointOutput)
 async def create_point(task_id: int, point_data: PointInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await TaskController.create_point(task_id, point_data, session)
 
 
 @router.post("/{task_id}/append_tool/{tool_id}", response_model=ToolOutput)
 async def append_tool(task_id: int, tool_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await TaskController.add_tool(task_id, tool_id, session)
 
 
@@ -71,11 +71,11 @@ async def delete_comment(task_id: int, comment_id: int, token: str = Depends(oau
 
 @router.delete("/{task_id}/delete_point/{point_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_point(task_id: int, point_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await TaskController.delete_point(task_id, point_id, session)
 
 
 @router.delete("/{task_id}/unappend_tool/{tool_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def unappend_tool(task_id: int, tool_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await TaskController.remove_tool(task_id, tool_id, session)

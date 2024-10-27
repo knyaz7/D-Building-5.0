@@ -32,7 +32,7 @@ async def get_point(point_id: int, token: str = Depends(oauth2_scheme), session:
 
 @router.put("/{point_id}", response_model=PointOutput)
 async def update_point(point_id: int, point_data: PointInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await PointController.update(point_id, point_data, session)
 
 #

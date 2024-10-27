@@ -26,17 +26,17 @@ async def get_tool(tool_id: int, token: str = Depends(oauth2_scheme), session: A
 
 @router.post("/", response_model=ToolOutput)
 async def create_tool(tool_id: ToolInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await ToolController.create(tool_id, session)
 
 
 @router.put("/{task_id}", response_model=ToolOutput)
 async def update_tool(tool_id: int, task_data: ToolInput, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await ToolController.update(tool_id, task_data, session)
 
 
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_tool(tool_id: int, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
-    await AuthController.verify_token(token, session)
+    await AuthController.verify_token(token, session, 1)
     return await ToolController.delete(tool_id, session)
