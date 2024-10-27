@@ -9,7 +9,30 @@ from src.ml.evaluate_task import evaluate_task
 
 app = Client("TaskManagerAI", api_id=os.getenv('API_ID'), api_hash=os.getenv('API_HASH'))
 
+async def run_with_event_loop(func):
+    """
+    Декоратор для запуска асинхронной функции с ожиданием события.
 
+    Args:
+        func: Асинхронная функция, которую нужно запустить.
+
+    Returns:
+        Результат выполнения функции.
+    """
+    async def wrapper(*args, **kwargs):
+        await app.start()
+
+        async def run_task():
+            result = await func(*args, **kwargs)
+            return result
+
+        await run_task()
+        await asyncio.Event().wait()
+    return wrapper
+
+
+
+@run_with_event_loop
 async def create_chat_and_send_message(username, task, count_day):
     # Добавляем метку "TASK:" к каждой задаче для более надежного поиска в тексте
     unfulfilled_formatted = "\n".join([f"TASK: {item}" for item in task.points])
